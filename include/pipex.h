@@ -6,8 +6,16 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/16 23:11:43 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/16 23:32:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PIPEX_H
+#define PIPEX_H
+
 #include <stdio.h>
+#include <unistd.h>
+
+
+
+#endif
