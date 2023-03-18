@@ -6,10 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/18 16:40:26 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/18 17:16:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "pipex.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,7 +67,23 @@ int fork_test(int argc, char *argv[], char *envp[])
 }
 
 
+char *find_path(char *envp[])
+{
+	int i = 0;
+	while (envp[i])
+	{
+		if (!ft_strncmp("PATH", envp[i], 4))
+			return (envp[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+
 int main(int argc, char *argv[], char *envp[])
 {
-	return (fork_test(argc, argv, envp));
+
+	char *path = find_path((envp));
+	printf("path [%s]\n", path);
+	// return (fork_test(argc, argv, envp));
 }

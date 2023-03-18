@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/17 14:30:12 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/18 17:08:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 #include "get_next_line.h"
 #include <stdio.h>
 #include <unistd.h>
+
+
+typedef struct s_pipex
+{
+	char	**paths;
+}	t_pipex;
+
 
 
 
