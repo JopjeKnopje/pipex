@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.h                                            :+:    :+:            */
+/*   test_executable.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/17 14:30:12 by joppe         ########   odam.nl         */
+/*   Created: 2023/03/18 16:02:26 by joppe         #+#    #+#                 */
+/*   Updated: 2023/03/18 16:03:18 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-#define PIPEX_H
-
-#include "libft.h"
-#include "get_next_line.h"
 #include <stdio.h>
-#include <unistd.h>
 
+int main(int argc, char *argv[])
+{
+	printf("hello from test_executable\n");
 
-
-#endif
+	return 0;
+}
