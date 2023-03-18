@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/03/16 23:13:26 by joppe         ########   odam.nl          #
+#    Updated: 2023/03/18 23:50:14 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,14 @@ NAME = pipex
 LIBFT = libft/build/libft.a
 
 # CFLAGS = -Wall -Wextra -Werror
-# CFLAGS += -g -fsanitize=address
+CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 
 
 SRC_DIR = src
-SRCS = main.c
+SRCS = main.c \
+	   utils.c \
+	   parser.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
@@ -70,7 +72,7 @@ fclean: clean
 re: fclean dfclean all
 
 run: all
-	./$(NAME)
+	./$(NAME) "ls -lsa" "echo blabla > test_file" "cat test_file" "neofetch"
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb
