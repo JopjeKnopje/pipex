@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/18 23:50:31 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/19 00:17:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,23 @@ int pipex(int argc, char *argv[], char *envp[])
 	char **args = parse_args(argv);
 
 	print_split(args);
+
+	int i = 0;
+	while (args[i])
+	{
+		long delim = ft_strchr(args[i], ' ') - args[i];
+		char *cmd = ft_substr(args[i], 0, delim);
+		printf("running command [%s] with args [%s]\n", cmd, args[i]);
+		argv = ft_split(args[i], ' ');
+		run_cmd(argv, envp, cmd);
+		i++;
+	}
+
 	free_split(args);
 
-	// run_cmd(&argv[1], envp, argv[1]);
+
+	// for running in neovim terminal thing.
+	fflush(stdout);
 	return (0);
 }
 

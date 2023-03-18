@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/18 23:46:49 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/19 00:02:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,5 @@ int		str_arr_len(char **ptr);
 
 // parser.c
 char	**parse_args(char *argv[]);
-
-typedef struct s_pipex
-{
-	char	**paths;
-}	t_pipex;
 
 #endif

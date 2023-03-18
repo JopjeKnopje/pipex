@@ -6,11 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/18 23:50:42 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/19 00:02:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "pipex.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 
@@ -47,6 +49,11 @@ char	**strjoin_free_2d(char **s_base, char **s_append)
 	return (s_joined);
 }
 
+/*! TODO: Check how we should handle commands without arguments.
+ *
+ * We are currently splitting on the '"' but what if our command has no arguments?
+ * aka instead of "cmd1 args" it is just literal cmd1
+ */
 char	**parse_args(char *argv[])
 {
 	char	**args_base;
