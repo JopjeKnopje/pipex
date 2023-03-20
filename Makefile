@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/03/18 23:50:14 by joppe         ########   odam.nl          #
+#    Updated: 2023/03/20 22:42:53 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ re: fclean dfclean all
 
 run: all
 	./$(NAME) "ls -lsa" "echo blabla > test_file" "cat test_file" "neofetch"
+	# ./$(NAME) "echo blabla > test_file"
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb
@@ -92,4 +93,4 @@ build_test: $(LIBFT) $(OBJS) $(TEST_BINS)
 
 test:
 	$(MAKE) clean
-	$(MAKE) build_test TEST_BUILD=1
+	$(MAKE) build_test TEST_BUILD=1make

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/20 13:05:45 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/20 22:51:42 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int run_cmd(char *argv[], char *envp[], char *cmd)
 	{
 		paths[i] = ft_strjoin_free(paths[i], cmd);
 		ret = execve(paths[i], argv, envp);
-		// printf("failed running execve with paths[%d] [%s]\n", i, paths[i]);
+		printf("failed running execve with paths[%d] [%s]\n", i, paths[i]);
 		// fflush(stdout);
 		i++;
 	}
@@ -167,13 +167,11 @@ int pipex(int argc, char *argv[], char *envp[])
 			// wait otherwise the forks will run simultaneously and the printed output
 			// will not be correct.
 			waitpid(pid, NULL, 0);
-			free_split(argv);
-			i++;
 		}
+		free_split(argv);
+		i++;
 	}
-	printf("pipex i %i\n", i);
 	free_split(args);
-
 
 	// for running in neovim terminal thing.
 	fflush(stdout);
