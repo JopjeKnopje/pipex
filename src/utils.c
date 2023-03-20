@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 22:52:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/18 23:46:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/20 23:00:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,4 @@ void print_split(char **split)
 		printf("split[%d] [%s]\n", i, split[i]);
 		i++;
 	}
-}
-
-int	str_arr_len(char **ptr)
-{
-	int	i;
-
-	i = 0;
-	while (ptr[i])
-		i++;
-	return (i);
 }

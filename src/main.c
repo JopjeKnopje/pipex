@@ -6,12 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/20 22:51:42 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/20 23:47:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "pipex.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -180,5 +181,29 @@ int pipex(int argc, char *argv[], char *envp[])
 
 int main(int argc, char *argv[], char *envp[])
 {
-	return pipex(argc, argv, envp);
+	// TODO: Parse all the arguments
+	int fd_input = open(argv[1], O_RDONLY);
+	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	// TODO: Maybe use O_APPEND?
+	int fd_output = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC,  mode);
+
+	if (fd_output == -1)
+	{
+		printf("Error with fd_output\n");
+	}
+
+	int pid = fork();
+
+	if (pid == 0)
+	{
+		// dup2 close fd_input and redirect STDIN_FILENO to fd_input
+		dup2(STDIN_FILENO, fd_input);
+		dup2(fd_output, STDOUT_FILENO);
+		int ret = execve("/usr/bin/cat", argv, envp);
+	}
+	else {
+		close(fd_input);
+		close(fd_output);
+		waitpid(pid, NULL, 0);
+	}
 }

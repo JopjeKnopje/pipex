@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/19 00:02:02 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/20 23:01:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	**strjoin_free_2d(char **s_base, char **s_append)
 
 	if (!s_append)
 		return (NULL);
-	len_base = str_arr_len(s_base);
-	s_joined = ft_calloc(str_arr_len(s_append) + len_base + 1, sizeof(char *));
+	len_base = ft_str_arr_len(s_base);
+	s_joined = ft_calloc(ft_str_arr_len(s_append) + len_base + 1, sizeof(char *));
 	if (!s_joined)
 	{
 		free(s_base);
