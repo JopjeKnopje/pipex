@@ -6,10 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/21 00:15:10 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/21 00:18:25 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 #include "libft.h"
 #include "pipex.h"
 #include <fcntl.h>
@@ -187,6 +188,9 @@ int main(int argc, char *argv[], char *envp[])
 	// TODO: Maybe use O_APPEND?
 	int fd_output = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC,  mode);
 
+	int fd_pipe[2];
+	pipe(fd_pipe);
+
 	if (fd_output == -1)
 	{
 		printf("Error with fd_output\n");
@@ -197,9 +201,12 @@ int main(int argc, char *argv[], char *envp[])
 	int exec_return = 0;
 	if (pid == 0)
 	{
+		close(fd_output);
+		close(fd_pipe[0]);
+
 		// Duplicate FD to FD2, closing FD2 and making it open on the same file.  
 		dup2(fd_input, STDIN_FILENO);
-		dup2(fd_output, STDOUT_FILENO);
+		dup2(fd_pipe[1], STDOUT_FILENO);
 		char *args[] = {
 			"cat",
 			NULL
@@ -214,6 +221,17 @@ int main(int argc, char *argv[], char *envp[])
 	else {
 		close(fd_input);
 		close(fd_output);
+		close(fd_pipe[1]);
+
+		char *line = get_next_line(fd_pipe[0]);
+		while (line) 
+		{
+			printf("data from pipe [%s]\n", line);
+			free(line);
+			line = get_next_line(fd_pipe[0]);
+		}
+		free(line);
+		close(fd_pipe[0]);
 		waitpid(pid, NULL, 0);
 	}
 }
