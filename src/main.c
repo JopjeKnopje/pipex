@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/19 00:17:17 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/20 13:05:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,15 +120,19 @@ int run_cmd(char *argv[], char *envp[], char *cmd)
 	char *path;
 	char **paths;
 
+
 	path = find_path(envp);
 	paths = split_path(path);
+
+	// printf("running [%s] with argv [%s]\n", )
 
 	i = 1;
 	while (paths[i]) 
 	{
 		paths[i] = ft_strjoin_free(paths[i], cmd);
 		ret = execve(paths[i], argv, envp);
-		printf("split[%d] [%s]\n", i, paths[i]);
+		// printf("failed running execve with paths[%d] [%s]\n", i, paths[i]);
+		// fflush(stdout);
 		i++;
 	}
 	printf("execve failed\n");
@@ -145,17 +149,29 @@ int pipex(int argc, char *argv[], char *envp[])
 
 	print_split(args);
 
+	int pid;
+
 	int i = 0;
 	while (args[i])
 	{
 		long delim = ft_strchr(args[i], ' ') - args[i];
 		char *cmd = ft_substr(args[i], 0, delim);
-		printf("running command [%s] with args [%s]\n", cmd, args[i]);
-		argv = ft_split(args[i], ' ');
-		run_cmd(argv, envp, cmd);
-		i++;
-	}
 
+		argv = ft_split(args[i], ' ');
+		pid = fork();
+		if (pid == 0)
+		{
+			run_cmd(argv, envp, cmd);
+		}
+		else {
+			// wait otherwise the forks will run simultaneously and the printed output
+			// will not be correct.
+			waitpid(pid, NULL, 0);
+			free_split(argv);
+			i++;
+		}
+	}
+	printf("pipex i %i\n", i);
 	free_split(args);
 
 
