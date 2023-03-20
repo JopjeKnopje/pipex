@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/21 00:18:25 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/21 00:20:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,18 +220,22 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	else {
 		close(fd_input);
-		close(fd_output);
 		close(fd_pipe[1]);
 
-		char *line = get_next_line(fd_pipe[0]);
-		while (line) 
+		dup2(fd_output, STDOUT_FILENO);
+		dup2(fd_pipe[0], STDIN_FILENO);
+
+		char *args[] = {
+			"sort",
+			"-n",
+			NULL
+		};
+		exec_return = execve("/usr/bin/sort", args, envp);
+		if (exec_return == -1)
 		{
-			printf("data from pipe [%s]\n", line);
-			free(line);
-			line = get_next_line(fd_pipe[0]);
+			printf("execve failed\n");
+			return EXIT_FAILURE;
 		}
-		free(line);
-		close(fd_pipe[0]);
-		waitpid(pid, NULL, 0);
 	}
+	waitpid(pid, NULL, 0);
 }
