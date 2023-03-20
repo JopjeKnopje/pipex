@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/03/20 23:50:53 by joppe         ########   odam.nl          #
+#    Updated: 2023/03/21 00:11:19 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,8 +72,8 @@ fclean: clean
 re: fclean dfclean all
 
 run: all
-	# ./$(NAME) "ls -lsa" "echo blabla > test_file" "cat test_file" "neofetch"
-	# ./$(NAME) "echo blabla > test_file"
+	@# ./$(NAME) "ls -lsa" "echo blabla > test_file" "cat test_file" "neofetch"
+	@# ./$(NAME) "echo blabla > test_file"
 	./$(NAME) input_file.txt output_file.txt
 
 

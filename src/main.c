@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/20 23:47:27 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/21 00:15:10 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,12 +194,22 @@ int main(int argc, char *argv[], char *envp[])
 
 	int pid = fork();
 
+	int exec_return = 0;
 	if (pid == 0)
 	{
-		// dup2 close fd_input and redirect STDIN_FILENO to fd_input
-		dup2(STDIN_FILENO, fd_input);
+		// Duplicate FD to FD2, closing FD2 and making it open on the same file.  
+		dup2(fd_input, STDIN_FILENO);
 		dup2(fd_output, STDOUT_FILENO);
-		int ret = execve("/usr/bin/cat", argv, envp);
+		char *args[] = {
+			"cat",
+			NULL
+		};
+		exec_return = execve("/usr/bin/cat", args, envp);
+		if (exec_return == -1)
+		{
+			printf("execve failed\n");
+			return EXIT_FAILURE;
+		}
 	}
 	else {
 		close(fd_input);

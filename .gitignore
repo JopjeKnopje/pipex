@@ -2,4 +2,5 @@ obj/
 pipex
 compile_commands.json
 .cache/
+output_file.txt
 
