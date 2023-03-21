@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/03/21 00:11:19 by joppe         ########   odam.nl          #
+#    Updated: 2023/03/21 02:02:47 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ INC = -Ilibft/include -Iinclude
 SRC_DIR = src
 SRCS = main.c \
 	   utils.c \
-	   parser.c
+	   parser.c \
+	   commands.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
@@ -72,9 +73,8 @@ fclean: clean
 re: fclean dfclean all
 
 run: all
-	@# ./$(NAME) "ls -lsa" "echo blabla > test_file" "cat test_file" "neofetch"
-	@# ./$(NAME) "echo blabla > test_file"
-	./$(NAME) input_file.txt output_file.txt
+	./$(NAME) input_file.txt "cat" "sort -n" output_file.txt
+	@# cat output_file.txt
 
 
 compile_commands: dfclean fclean

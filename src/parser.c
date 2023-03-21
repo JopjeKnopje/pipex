@@ -6,48 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/20 23:01:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/21 01:24:54 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "pipex.h"
 #include <stdio.h>
-#include <stdlib.h>
-
-
-char	**strjoin_free_2d(char **s_base, char **s_append)
-{
-	char	**s_joined;
-	int		len_base;
-	int		i;
-
-	if (!s_append)
-		return (NULL);
-	len_base = ft_str_arr_len(s_base);
-	s_joined = ft_calloc(ft_str_arr_len(s_append) + len_base + 1, sizeof(char *));
-	if (!s_joined)
-	{
-		free(s_base);
-		free(s_append);
-		return NULL;
-	}
-	i = 0;
-	while (s_base[i])
-	{
-		s_joined[i] = s_base[i];
-		i++;
-	}
-	i = 0;
-	while (s_append[i])
-	{
-		s_joined[i + len_base] = s_append[i];
-		i++;
-	}
-	free(s_base);
-	free(s_append);
-	return (s_joined);
-}
 
 /*! TODO: Check how we should handle commands without arguments.
  *
@@ -74,4 +39,37 @@ char	**parse_args(char *argv[])
 		i++;
 	}
 	return (args_base);
+}
+
+char *find_path(char *envp[])
+{
+	int i = 0;
+	while (envp[i])
+	{
+		if (!ft_strncmp("PATH", envp[i], ft_strlen("PATH")))
+			return (envp[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+char **split_path(char *s)
+{
+	char	**paths;
+	char	*tmp;
+	
+	paths = ft_split(s, ':');
+
+	tmp = ft_substr(paths[0], 5, ft_strlen(paths[0]) - 5);
+	free(paths[0]);
+	paths[0] = tmp;
+
+	int i = 0;
+	while (paths[i]) 
+	{
+		paths[i] = ft_strjoin_free(paths[i], "/");
+		i++;
+	}
+
+	return (paths);
 }
