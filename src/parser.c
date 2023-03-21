@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/21 01:24:54 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/21 17:34:47 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char *find_path(char *envp[])
 	int i = 0;
 	while (envp[i])
 	{
-		if (!ft_strncmp("PATH", envp[i], ft_strlen("PATH")))
+		if (!ft_strncmp("PATH=", envp[i], ft_strlen("PATH=")))
 			return (envp[i]);
 		i++;
 	}
