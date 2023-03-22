@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/21 02:02:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/21 22:26:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ char	**strjoin_free_2d(char **s_base, char **s_append);
 char	**parse_args(char *argv[]);
 char 	*find_path(char *envp[]);
 char 	**split_path(char *s);
+int		str_is_empty(char *s);
+int		put_str_error(char *s, char *t);
+
 
 // commands.c
 int 	run_cmd(char *argv[], char *envp[], char *cmd);

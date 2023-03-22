@@ -6,13 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/21 17:34:47 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/22 21:23:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "pipex.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 /*! TODO: Check how we should handle commands without arguments.
  *
@@ -33,9 +34,14 @@ char	**parse_args(char *argv[])
 	while (argv[i])
 	{
 		split = ft_split(argv[i], '"');
+		if (!split)
+		{
+			free_split(args_base);
+			return (NULL);
+		}
 		args_base = strjoin_free_2d(args_base, split);
 		if (!args_base)
-			break ;
+			break;
 		i++;
 	}
 	return (args_base);
@@ -72,4 +78,42 @@ char **split_path(char *s)
 	}
 
 	return (paths);
+}
+
+static void error_command_not_found(char *s)
+{
+	write(2, "-bash: ", 7);
+	write(2, s, ft_strlen(s));
+	write(2, ": ", 2);
+	write(2, "command not found\n", 18);
+}
+
+int		str_is_empty(char *s)
+{
+	int i;
+
+	i = 0;
+	while (s[i]) 
+	{
+		if (s[i] != ' ')
+			return (0);
+		i++;
+	}
+	error_command_not_found(s);
+	return (1);
+}
+
+int	put_str_error(char *s, char *t)
+{
+	if (!s)
+		return (2);
+	if (t)
+	{
+		write(2, "-bash: ", 7);
+		write(2, t, ft_strlen(t));
+		write(2, ": ", 2);
+	}
+	write(2, s, ft_strlen(s));
+	write(2, "\n", 1);
+	return (2);
 }

@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/03/21 02:02:47 by joppe         ########   odam.nl          #
+#    Updated: 2023/03/22 17:16:58 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,6 @@ re: fclean dfclean all
 run: all
 	./$(NAME) input_file.txt "cat" "sort -n" output_file.txt
 	@# cat output_file.txt
-
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb
