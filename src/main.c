@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/22 21:50:24 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/22 23:50:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,18 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 {
 	char **args_all = parse_args(argv);
 
-	int	pid;
+	int	pid1;
+	int	pid2;
 	int fd_pipe[2];
 	pipe(fd_pipe);
 
-	pid = fork();
+	pid1 = fork();
 
 	int exec_return = 0;
-	if (pid == 0)
+	if (pid1 == 0)
 	{
+		printf("child 1 lives\n");
+
 		char **args = ft_split(args_all[1], ' ');
 		close(fd_output);
 		close(fd_pipe[0]);
@@ -43,8 +46,13 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 		dup2(fd_pipe[1], STDOUT_FILENO);
 
 		run_cmd(args, envp, args[0]);
+		return 0;
 	}
-	else {
+	pid2 = fork();
+	if (pid2 == 0)
+	{
+		printf("child 2 lives\n");
+
 		char **args = ft_split(args_all[2], ' ');
 		close(fd_input);
 		close(fd_pipe[1]);
@@ -53,9 +61,16 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 		dup2(fd_pipe[0], STDIN_FILENO);
 
 		run_cmd(args, envp, args[0]);
+		return 0;
 	}
-	waitpid(pid, NULL, 0);
-	return 0;
+	close(fd_input);
+	close(fd_output);
+	close(fd_pipe[0]);
+	close(fd_pipe[1]);
+	free_split(args_all);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
+	return (0);
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -63,6 +78,7 @@ int main(int argc, char *argv[], char *envp[])
 	int	fd_input;
 	int	fd_output;
 
+	// TODO: Maybe use perror()
 	if (argc != 5)
 		return (put_str_error("Invalid number of arguments", NULL));
 	if (str_is_empty(argv[2]) || str_is_empty(argv[3]))
