@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/22 23:50:24 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/23 00:32:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 	int exec_return = 0;
 	if (pid1 == 0)
 	{
-		printf("child 1 lives\n");
-
 		char **args = ft_split(args_all[1], ' ');
 		close(fd_output);
 		close(fd_pipe[0]);
@@ -51,8 +49,6 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 	pid2 = fork();
 	if (pid2 == 0)
 	{
-		printf("child 2 lives\n");
-
 		char **args = ft_split(args_all[2], ' ');
 		close(fd_input);
 		close(fd_pipe[1]);
@@ -63,11 +59,9 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 		run_cmd(args, envp, args[0]);
 		return 0;
 	}
-	close(fd_input);
-	close(fd_output);
+	free_split(args_all);
 	close(fd_pipe[0]);
 	close(fd_pipe[1]);
-	free_split(args_all);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 	return (0);
@@ -92,6 +86,6 @@ int main(int argc, char *argv[], char *envp[])
 		return (put_str_error(strerror(errno), argv[4]));
 	pipex(fd_input, fd_output, argv, envp);
 	if (close(fd_input) < 0 || close(fd_output) < 0)
-		return (put_str_error(strerror(errno), 0));
+		return (put_str_error(strerror(errno), "fd_input"));
 	return (EXIT_SUCCESS);
 }
