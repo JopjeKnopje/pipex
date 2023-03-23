@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 22:52:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/22 21:24:56 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/23 01:37:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,3 +108,10 @@ char	**strjoin_free_2d(char **s_base, char **s_append)
 	return (s_joined);
 }
 
+t_cmd 	*init_cmd(t_cmd *cmd, char *argv[], int fd_input)
+{
+	cmd->argv = argv;
+	cmd->fd_input = fd_input;
+
+	return (cmd);
+}

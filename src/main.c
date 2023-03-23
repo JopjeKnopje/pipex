@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/23 00:32:24 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/23 01:40:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,50 +21,39 @@
 #include <unistd.h>
 
 
+int get_pipe_index(int i, int argc)
+{
+	if (!i)
+		return (0);
+	if (i == argc - 1)
+	{
+		return (1);
+	}
+	return ((i % 2) + 2);
+}
+
+// ./pipex input_file.txt "cat" "sort -n" output_file.txt
 int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 {
-	char **args_all = parse_args(argv);
+	int argc;
+	t_cmd cmd_1;
+	t_cmd cmd_2;
 
-	int	pid1;
-	int	pid2;
-	int fd_pipe[2];
-	pipe(fd_pipe);
+	argv = parse_args(argv);
+	init_cmd(&cmd_1, argv, fd_input);
+	init_cmd(&cmd_2, argv, fd_output);
+	// split args and cmd
+	// check with access
 
-	pid1 = fork();
+	
 
-	int exec_return = 0;
-	if (pid1 == 0)
-	{
-		char **args = ft_split(args_all[1], ' ');
-		close(fd_output);
-		close(fd_pipe[0]);
+	//// Have all this stuff in a fucntion
+	// pipe()
+	// fork 2 times
+	// dup2 (fd_input/output_file, pipe)
+	// execve needs: (pathname, argv, envp)
 
-		// Duplicate FD to FD2, closing FD2 and making it open on the same file.  
-		dup2(fd_input, STDIN_FILENO);
-		dup2(fd_pipe[1], STDOUT_FILENO);
-
-		run_cmd(args, envp, args[0]);
-		return 0;
-	}
-	pid2 = fork();
-	if (pid2 == 0)
-	{
-		char **args = ft_split(args_all[2], ' ');
-		close(fd_input);
-		close(fd_pipe[1]);
-
-		dup2(fd_output, STDOUT_FILENO);
-		dup2(fd_pipe[0], STDIN_FILENO);
-
-		run_cmd(args, envp, args[0]);
-		return 0;
-	}
-	free_split(args_all);
-	close(fd_pipe[0]);
-	close(fd_pipe[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
-	return (0);
+	return 0;
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -73,7 +62,7 @@ int main(int argc, char *argv[], char *envp[])
 	int	fd_output;
 
 	// TODO: Maybe use perror()
-	if (argc != 5)
+	if (argc < 5)
 		return (put_str_error("Invalid number of arguments", NULL));
 	if (str_is_empty(argv[2]) || str_is_empty(argv[3]))
 		return (EXIT_FAILURE);

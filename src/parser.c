@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/22 21:23:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/23 01:01:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char	**parse_args(char *argv[])
 	args_base = ft_calloc(1, sizeof(char *));
 	if (!args_base)
 		return (NULL);
-	i = 1;
-	while (argv[i])
+	i = 2;
+	while (argv[i] && argv[i + 1])
 	{
 		split = ft_split(argv[i], '"');
 		if (!split)
