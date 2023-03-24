@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 01:45:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/24 01:45:41 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/24 02:40:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@ void print_cmds(t_cmd **cmds, int len)
 	int i = 0;
 	while (i < len) 
 	{
-		printf("cmds[%d]->argv[0]: [%s]\n", i, cmds[i]->argv[0]);
-		printf("cmds[%d]->cmd_paths[0]: [%s]\n", i, cmds[i]->cmd_paths[0]);
+		char *argv = sprint_split(cmds[i]->argv, NULL);
+		char *paths = sprint_split(cmds[i]->cmd_paths, NULL);
+		printf("cmds[%d]->argv[0]: [%s]\n", i, argv);
+		printf("cmds[%d]->cmd_paths[0]: [%s]\n", i, paths);
+		free(argv);
+		free(paths);
 		i++;
 	}
 }

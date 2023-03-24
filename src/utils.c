@@ -6,13 +6,53 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 22:52:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/24 01:45:31 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/24 03:09:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "pipex.h"
+#include <string.h>
 #include <stdio.h>
+#include <unistd.h>
+
+int check_exec(t_cmd **cmds, int len)
+{
+	int	i;
+	int	j;
+	int err;
+
+	i = 0;
+	while (i < len)
+	{
+		j = 0;
+		err = 0;
+		while (cmds[i]->cmd_paths[j]) 
+		{
+			// TODO: Trim the unaccessable path from cmd_paths
+			if (access(cmds[i]->cmd_paths[j], X_OK) == -1)
+			{
+				err = 1;
+			}
+			else
+			{
+				err = 0;
+			}
+			j++;
+		}
+		if (err == 1)
+		{
+			if (errno == 2)
+				put_str_error("command not found", cmds[i]->argv[0]);
+			else
+				put_str_error(strerror(errno), cmds[i]->argv[0]);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 
 char	**strjoin_free_2d(char **s_base, char **s_append)
 {

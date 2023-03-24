@@ -56,21 +56,21 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 	{
 		printf("cmds failed\n");
 		free_split(args);
-		return 0;
+		return (EXIT_FAILURE);
 	}
-	
 
 	print_cmds(cmds, len);
 
+	if(!check_exec(cmds, len))
+	{
+		free_cmds(cmds, len);
+		free_split(args);
+		return (EXIT_FAILURE);
+	}
 
 	free_cmds(cmds, len);
 	free_split(args);
 
-
-
-	
-	// split args and cmd
-	// check with access
 
 	
 

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/24 01:45:51 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/24 01:58:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	free_split(char **s_split);
 
 // utils.c
 char	**strjoin_free_2d(char **s_base, char **s_append);
+int		check_exec(t_cmd **cmds, int len);
 
 
 // parser.c

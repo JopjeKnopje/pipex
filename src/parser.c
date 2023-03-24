@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/24 00:13:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/24 03:10:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ char **split_path(t_cmd *cmd, char *s)
 		i++;
 	}
 
+	// TODO: Find another way for this.
+	char **arr = ft_calloc(sizeof(char *), 2);
+	arr[0] = ft_strdup("./");
+	arr[0] = ft_strjoin_free(arr[0], cmd->argv[0]);
+	paths = strjoin_free_2d(paths, arr);
 	return (paths);
 }
 
