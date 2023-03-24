@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/03/24 00:59:55 by joppe         ########   odam.nl          #
+#    Updated: 2023/03/24 01:45:59 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRCS = main.c \
 	   utils.c \
 	   parser.c \
 	   commands.c \
-	   free.c
+	   free.c \
+	   meuk.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 

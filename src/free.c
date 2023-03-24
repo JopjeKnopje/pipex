@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 00:15:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/24 01:05:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/24 01:30:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	free_cmds(t_cmd **cmds, unsigned int len)
 		free_split(cmds[i]->argv);
 		free_split(cmds[i]->cmd_paths);
 		free(cmds[i]);
-		printf("free_cmds i: %d\n", i);
 		i++;
 	}
 	free(cmds);

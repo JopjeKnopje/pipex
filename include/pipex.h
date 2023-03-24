@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/24 01:22:33 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/24 01:45:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	free_split(char **s_split);
 
 
 // utils.c
-void	print_split(char **split);
-char 	*sprint_split(char **split, const char *name);
 char	**strjoin_free_2d(char **s_base, char **s_append);
 
 
@@ -52,5 +50,11 @@ int		put_str_error(char *s, char *t);
 // commands.c
 int 	run_cmd(char *argv[], char *envp[], char *cmd);
 t_cmd 	*cmd_init(char *argv, char **envp);
+
+
+// meuk.c
+void	print_split(char **split);
+void 	print_cmds(t_cmd **cmds, int len);
+char 	*sprint_split(char **split, const char *name);
 
 #endif
