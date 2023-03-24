@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/23 01:01:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/24 00:13:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*! TODO: Check how we should handle commands without arguments.
- *
- * We are currently splitting on the '"' but what if our command has no arguments?
- * aka instead of "cmd1 args" it is just literal cmd1
- */
 char	**parse_args(char *argv[])
 {
 	char	**args_base;
@@ -52,21 +47,25 @@ char *find_path(char *envp[])
 	int i = 0;
 	while (envp[i])
 	{
-		if (!ft_strncmp("PATH=", envp[i], ft_strlen("PATH=")))
+		if (!ft_strncmp("PATH=", envp[i], 5))
 			return (envp[i]);
 		i++;
 	}
 	return (NULL);
 }
 
-char **split_path(char *s)
+char **split_path(t_cmd *cmd, char *s)
 {
 	char	**paths;
 	char	*tmp;
+
+	if (!cmd || !s)
+		return (NULL);
 	
 	paths = ft_split(s, ':');
 
 	tmp = ft_substr(paths[0], 5, ft_strlen(paths[0]) - 5);
+	// TODO Error handling
 	free(paths[0]);
 	paths[0] = tmp;
 
@@ -74,6 +73,7 @@ char **split_path(char *s)
 	while (paths[i]) 
 	{
 		paths[i] = ft_strjoin_free(paths[i], "/");
+		paths[i] = ft_strjoin_free(paths[i], cmd->argv[0]);
 		i++;
 	}
 

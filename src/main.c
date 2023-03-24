@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/23 01:40:58 by joppe         ########   odam.nl         */
+/* 	 Updated: 2023/03/23 23:53:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,73 @@ int get_pipe_index(int i, int argc)
 	return ((i % 2) + 2);
 }
 
+void struct_print_cmd(t_cmd *cmd)
+{
+	char *argv = sprint_split(cmd->argv, "cmd->argv");
+	char *paths = sprint_split(cmd->cmd_paths, "cmd->cmd_paths");
+	printf("argv [%s] | paths [%s]\n", argv, paths);
+	free(argv);
+	free(paths);
+}
+
+t_cmd **create_commands(char *argv[], int count, char **envp)
+{
+	// malloc cmd array.
+	t_cmd **cmds;
+
+	// maybe use double pointer, cuz now we have "stack" memory
+	// that should be free'd when we exit this function.
+	cmds = ft_calloc(sizeof(t_cmd *), count);
+	if (!cmds)
+		return (NULL);
+
+	int i = 0;
+	while (i < count)
+	{
+		if (!cmd_init(cmds[i], argv[i], envp))
+		{
+			free_cmds(cmds, i);
+			return (NULL);
+		}
+		printf("cmds[%d]->argv[0]: [%s]\n", i, cmds[i]->argv[0]);
+		printf("cmds[%d]->cmd_paths[0]: [%s]\n", i, cmds[i]->cmd_paths[0]);
+		// struct_print_cmd(cmds[i]);
+		i++;
+	}
+
+	return (cmds);
+}
+
 // ./pipex input_file.txt "cat" "sort -n" output_file.txt
 int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 {
-	int argc;
-	t_cmd cmd_1;
-	t_cmd cmd_2;
+	char **args;
 
-	argv = parse_args(argv);
-	init_cmd(&cmd_1, argv, fd_input);
-	init_cmd(&cmd_2, argv, fd_output);
+	args = parse_args(argv);
+
+	int count = ft_str_arr_len(args);
+	t_cmd **cmds = create_commands(args, count, envp);
+
+	int	i;
+	
+	i = 0;
+	while (i < count)
+	{
+		printf("free_cmds i: %d\n", i);
+		// free_split(cmds[i]->argv);
+		// free_split(cmds[i]->cmd_paths);
+		printf("cmds[%d]->argv[0]: [%s]\n", i, cmds[i]->argv[0]);
+		printf("cmds[%d]->cmd_paths[0]: [%s]\n", i, cmds[i]->cmd_paths[0]);
+		// free(cmds[i]);
+		i++;
+	}
+	free(cmds);
+
+	free_split(args);
+
+
+
+	
 	// split args and cmd
 	// check with access
 

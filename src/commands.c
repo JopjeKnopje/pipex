@@ -6,11 +6,30 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/21 02:02:25 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/24 01:08:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "pipex.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+// First try the approach with all the handling in here.
+t_cmd 	*cmd_init(t_cmd *cmd, char *argv, char **envp)
+{
+	char *path;
+	cmd = ft_calloc(sizeof(t_cmd), 1);
+
+	cmd->argv = ft_split(argv, ' ');
+	if (!cmd->argv)
+		return (NULL);
+	cmd->cmd_paths = split_path(cmd, find_path(envp));
+	if (!cmd->cmd_paths)
+		return (NULL);
+	return (cmd);
+}
+
 
 int run_cmd(char *argv[], char *envp[], char *cmd)
 {
@@ -20,7 +39,7 @@ int run_cmd(char *argv[], char *envp[], char *cmd)
 	char **paths;
 
 	path = find_path(envp);
-	paths = split_path(path);
+	paths = split_path(NULL, path);
 
 	i = 1;
 	while (paths[i]) 

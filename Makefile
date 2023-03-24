@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/03/22 17:16:58 by joppe         ########   odam.nl          #
+#    Updated: 2023/03/24 00:59:55 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC_DIR = src
 SRCS = main.c \
 	   utils.c \
 	   parser.c \
-	   commands.c
+	   commands.c \
+	   free.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
@@ -73,7 +74,8 @@ fclean: clean
 re: fclean dfclean all
 
 run: all
-	./$(NAME) input_file.txt "cat" "sort -n" output_file.txt
+	# ./$(NAME) input_file.txt "cat" "sort -n" output_file.txt
+	./$(NAME) input_file.txt "prog1 1" "prog2 1" "prog3 1" "prog4 1" "prog5 1" "prog6 1" "prog7 1" output_file.txt
 	@# cat output_file.txt
 
 compile_commands: dfclean fclean

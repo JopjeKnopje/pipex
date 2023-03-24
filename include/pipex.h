@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/23 01:40:31 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/24 01:04:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,34 @@
 
 typedef struct s_cmd
 {
-	int fd_input;  // whatever stdin is
-	int fd_output; // whatever stdout is
+	// int fd_input;  // whatever stdin is
+	// int fd_output; // whatever stdout is
 	char **argv;    // the argv with the program name ["cat", "e", "test_file.txt"]
-	char *cmd; 		// the command with path
+	char **cmd_paths; 		// the command with path
 }	t_cmd;
+
+
+// free.c
+void 	free_cmds(t_cmd **cmds, unsigned int len);
+void	free_split(char **s_split);
 
 
 // utils.c
 void	print_split(char **split);
 char 	*sprint_split(char **split, const char *name);
-void	free_split(char **s_split);
 char	**strjoin_free_2d(char **s_base, char **s_append);
-t_cmd 	*init_cmd(t_cmd *cmd, char *argv[], int fd_input);
 
 
 // parser.c
 char	**parse_args(char *argv[]);
 char 	*find_path(char *envp[]);
-char 	**split_path(char *s);
+char **split_path(t_cmd *cmd, char *s);
 int		str_is_empty(char *s);
 int		put_str_error(char *s, char *t);
 
 
 // commands.c
 int 	run_cmd(char *argv[], char *envp[], char *cmd);
+t_cmd 	*cmd_init(t_cmd *cmd, char *argv, char **envp);
 
 #endif
