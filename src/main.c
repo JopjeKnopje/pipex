@@ -41,32 +41,20 @@ void struct_print_cmd(t_cmd *cmd)
 	free(paths);
 }
 
-t_cmd **create_commands(char *argv[], int count, char **envp)
+t_cmd *create_commands(char *s_args[], int count, char **envp)
 {
-	// malloc cmd array.
-	t_cmd **cmds;
+	t_cmd *cmd;
 
-	// maybe use double pointer, cuz now we have "stack" memory
-	// that should be free'd when we exit this function.
-	cmds = ft_calloc(sizeof(t_cmd *), count);
-	if (!cmds)
-		return (NULL);
+
+
+	cmd = cmd_init(s_args[0], envp);
+
 
 	int i = 0;
-	while (i < count)
-	{
-		if (!cmd_init(cmds[i], argv[i], envp))
-		{
-			free_cmds(cmds, i);
-			return (NULL);
-		}
-		printf("cmds[%d]->argv[0]: [%s]\n", i, cmds[i]->argv[0]);
-		printf("cmds[%d]->cmd_paths[0]: [%s]\n", i, cmds[i]->cmd_paths[0]);
-		// struct_print_cmd(cmds[i]);
-		i++;
-	}
+	printf("cmds[%d]->argv[0]: [%s]\n", i, cmd->argv[0]);
+	printf("cmds[%d]->cmd_paths[0]: [%s]\n", i, cmd->cmd_paths[0]);
 
-	return (cmds);
+	return (cmd);
 }
 
 // ./pipex input_file.txt "cat" "sort -n" output_file.txt
@@ -77,22 +65,13 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 	args = parse_args(argv);
 
 	int count = ft_str_arr_len(args);
-	t_cmd **cmds = create_commands(args, count, envp);
+	t_cmd *cmd = create_commands(args, count, envp);
 
-	int	i;
-	
-	i = 0;
-	while (i < count)
-	{
-		printf("free_cmds i: %d\n", i);
-		// free_split(cmds[i]->argv);
-		// free_split(cmds[i]->cmd_paths);
-		printf("cmds[%d]->argv[0]: [%s]\n", i, cmds[i]->argv[0]);
-		printf("cmds[%d]->cmd_paths[0]: [%s]\n", i, cmds[i]->cmd_paths[0]);
-		// free(cmds[i]);
-		i++;
-	}
-	free(cmds);
+
+
+	free_split(cmd->argv);
+	free_split(cmd->cmd_paths);
+	free(cmd);
 
 	free_split(args);
 
