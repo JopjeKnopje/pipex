@@ -1,14 +1,15 @@
-
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
 /*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/16 23:11:22 by joppe         #+#    #+#                 */
-/* 	 Updated: 2023/03/23 23:53:30 by joppe         ########   odam.nl         */
+/*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
+/*   Updated: 2023/03/27 22:06:25 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "libft.h"
 #include "pipex.h"
@@ -71,8 +72,6 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 	free_cmds(cmds, len);
 	free_split(args);
 
-
-	
 
 	//// Have all this stuff in a fucntion
 	// pipe()

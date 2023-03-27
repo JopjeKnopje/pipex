@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 22:52:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/24 03:09:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/03/27 22:04:52 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,10 @@ int check_exec(t_cmd **cmds, int len)
 		err = 0;
 		while (cmds[i]->cmd_paths[j]) 
 		{
-			// TODO: Trim the unaccessable path from cmd_paths
+			// TODO: Only return 1 when we can atleast run one of each command
 			if (access(cmds[i]->cmd_paths[j], X_OK) == -1)
 			{
 				err = 1;
-			}
-			else
-			{
-				err = 0;
 			}
 			j++;
 		}
