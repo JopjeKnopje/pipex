@@ -11,3 +11,6 @@ Simulating the shell's pipe operator
 ## Notes
 * Local executables are not required to be handled.
 
+
+## TODO
+* Bij iedere split in de envp meteen met access checken

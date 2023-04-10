@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/27 22:06:25 by joppe         ########   odam.nl         */
+/*   Updated: 2023/04/10 14:45:49 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "libft.h"
 #include "pipex.h"
 #include <errno.h>
-#include <linux/limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -62,7 +61,7 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 
 	print_cmds(cmds, len);
 
-	if(!check_exec(cmds, len))
+	if (!check_exec(cmds, len))
 	{
 		free_cmds(cmds, len);
 		free_split(args);
