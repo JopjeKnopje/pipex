@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/04/10 14:45:04 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/04/17 14:00:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 
 typedef struct s_cmd
 {
-	// int fd_input;  // whatever stdin is
-	// int fd_output; // whatever stdout is
 	char **argv;    // the argv with the program name ["cat", "e", "test_file.txt"]
 	char **cmd_paths; 		// the command with path
 }	t_cmd;

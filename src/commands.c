@@ -6,14 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/24 01:45:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/04/17 14:48:54 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "pipex.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 t_cmd 	*cmd_init(char *argv, char **envp)
 {

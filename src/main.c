@@ -6,20 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/04/10 14:45:49 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/04/17 17:56:43 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "libft.h"
 #include "pipex.h"
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <unistd.h>
-
 
 t_cmd **create_commands(char *s_args[], int count, char **envp)
 {
@@ -28,11 +19,11 @@ t_cmd **create_commands(char *s_args[], int count, char **envp)
 	cmds = ft_calloc(sizeof(t_cmd *), count);
 	if (!cmds)
 		return (NULL);
-
 	int i = 0;
 	while (i < count) 
 	{
 		cmds[i] = cmd_init(s_args[i], envp);
+		// TODO Check access.
 		if (!cmds[i])
 		{
 			free_cmds(cmds, i);
@@ -40,7 +31,6 @@ t_cmd **create_commands(char *s_args[], int count, char **envp)
 		}
 		i++;
 	}
-
 	return (cmds);
 }
 
@@ -72,7 +62,7 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 	free_split(args);
 
 
-	//// Have all this stuff in a fucntion
+	// Have all this stuff in a fucntion
 	// pipe()
 	// fork 2 times
 	// dup2 (fd_input/output_file, pipe)
@@ -86,7 +76,6 @@ int main(int argc, char *argv[], char *envp[])
 {
 	int	fd_input;
 	int	fd_output;
-
 
 	// TODO: Maybe use perror()
 	if (argc < 5)
