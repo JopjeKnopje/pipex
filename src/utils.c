@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 22:52:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/03/27 22:04:52 by joppe         ########   odam.nl         */
+/*   Updated: 2023/04/18 20:50:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-
-int check_exec(t_cmd **cmds, int len)
-{
-	int	i;
-	int	j;
-	int err;
-
-	i = 0;
-	while (i < len)
-	{
-		j = 0;
-		err = 0;
-		while (cmds[i]->cmd_paths[j]) 
-		{
-			// TODO: Only return 1 when we can atleast run one of each command
-			if (access(cmds[i]->cmd_paths[j], X_OK) == -1)
-			{
-				err = 1;
-			}
-			j++;
-		}
-		if (err == 1)
-		{
-			if (errno == 2)
-				put_str_error("command not found", cmds[i]->argv[0]);
-			else
-				put_str_error(strerror(errno), cmds[i]->argv[0]);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 
 char	**strjoin_free_2d(char **s_base, char **s_append)
 {

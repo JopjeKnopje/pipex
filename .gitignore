@@ -1,4 +1,5 @@
 obj/
+test_exec
 pipex
 compile_commands.json
 .cache/

@@ -6,40 +6,20 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/04/17 17:56:43 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/04/18 20:51:26 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-t_cmd **create_commands(char *s_args[], int count, char **envp)
-{
-	t_cmd **cmds;
-	
-	cmds = ft_calloc(sizeof(t_cmd *), count);
-	if (!cmds)
-		return (NULL);
-	int i = 0;
-	while (i < count) 
-	{
-		cmds[i] = cmd_init(s_args[i], envp);
-		// TODO Check access.
-		if (!cmds[i])
-		{
-			free_cmds(cmds, i);
-			return (NULL);
-		}
-		i++;
-	}
-	return (cmds);
-}
 
 int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 {
 	char **args;
 
 	args = parse_args(argv);
-
+	if (!args)
+		return (EXIT_FAILURE);
 	int len = ft_str_arr_len(args);
 	t_cmd **cmds = create_commands(args, len, envp);
 	if (!cmds)
@@ -51,12 +31,6 @@ int pipex(int fd_input, int fd_output, char *argv[], char *envp[])
 
 	print_cmds(cmds, len);
 
-	if (!check_exec(cmds, len))
-	{
-		free_cmds(cmds, len);
-		free_split(args);
-		return (EXIT_FAILURE);
-	}
 
 	free_cmds(cmds, len);
 	free_split(args);

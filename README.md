@@ -13,4 +13,8 @@ Simulating the shell's pipe operator
 
 
 ## TODO
-* Bij iedere split in de envp meteen met access checken
+[ ] Check if the command given to pipex contains the abolute path ex. (/usr/bin/prog)
+[ ] Check if the command given to pipex contains the relative path ex. (./prog)
+[ ] Before adding the path to the cmd->cmd_paths check if we can run it with access.
+[ ] Have an exit function that also frees our memory 
+[ ] Bij iedere split in de envp meteen met access checken

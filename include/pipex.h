@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/04/17 14:00:12 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/04/18 20:51:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <string.h>
 #include <sys/wait.h>
 
 typedef struct s_cmd
 {
-	char **argv;    // the argv with the program name ["cat", "e", "test_file.txt"]
-	char **cmd_paths; 		// the command with path
+	char **argv;    	// the argv with the program name ["cat", "e", "test_file.txt"]
+	char **cmd_paths; 	// the command with path
 }	t_cmd;
 
 
@@ -35,20 +36,16 @@ void	free_split(char **s_split);
 
 // utils.c
 char	**strjoin_free_2d(char **s_base, char **s_append);
-int		check_exec(t_cmd **cmds, int len);
 
 
 // parser.c
 char	**parse_args(char *argv[]);
-char 	*find_path(char *envp[]);
-char 	**split_path(t_cmd *cmd, char *s);
 int		str_is_empty(char *s);
 int		put_str_error(char *s, char *t);
 
 
 // commands.c
-int 	run_cmd(char *argv[], char *envp[], char *cmd);
-t_cmd 	*cmd_init(char *argv, char **envp);
+t_cmd	**create_commands(char *s_args[], int count, char **envp);
 
 
 // meuk.c

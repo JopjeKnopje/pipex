@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/04/14 14:29:54 by jboeve        ########   odam.nl          #
+#    Updated: 2023/04/18 20:14:43 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ re: fclean dfclean all
 
 run: all
 	# ./$(NAME) input_file.txt "cat" "sort -n" output_file.txt
-	./$(NAME) input_file.txt "test_exec 1" "prog2 1" "prog3 1" "prog4 1" "prog5 1" "prog6 1" "prog7 1" output_file.txt
+	./$(NAME) input_file.txt "test_exec 1" "prog2 1" "prog3 1" output_file.txt
 	@# cat output_file.txt
 
 compile_commands: dfclean fclean
