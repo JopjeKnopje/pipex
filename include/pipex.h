@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/04/18 20:51:12 by joppe         ########   odam.nl         */
+/*   Updated: 2023/04/19 10:53:38 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 typedef struct s_cmd
 {
-	char **argv;    	// the argv with the program name ["cat", "e", "test_file.txt"]
-	char **cmd_paths; 	// the command with path
+	char **argv;    	// the argv with the program name ["cat -e", "e", "test_file.txt"]
+	char **cmd_paths; 	// the command with the appended path
 }	t_cmd;
 
 
