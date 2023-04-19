@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/04/18 20:55:14 by joppe         ########   odam.nl         */
+/*   Updated: 2023/04/19 09:44:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char **append_env_path(t_cmd *cmd, char *path)
 
 static char *append_abolute_path(t_cmd *cmd)
 {
-
+	return (NULL);
 }
 
 static t_cmd 	*cmd_init(char *argv, char **envp)
