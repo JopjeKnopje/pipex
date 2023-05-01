@@ -6,18 +6,24 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/04/19 11:49:53 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/01 10:44:17 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "pipex.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/unistd.h>
 #include <unistd.h>
 
 static char *find_path(char *envp[])
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
+	if (!envp)
+		return (NULL);
 	while (envp[i])
 	{
 		if (!ft_strncmp("PATH=", envp[i], 5))
@@ -32,30 +38,24 @@ static char **append_env_path(t_cmd *cmd, char *path)
 {
 	char	**paths;
 	char	*tmp;
-	int		i;
+	unsigned int i;
 
 	if (!cmd || !path)
 		return (NULL);
 	
 	paths = ft_split(path, ':');
 	i = 0;
-	while (paths[i]) 
+	while (paths[i] && paths[i]) 
 	{
 		paths[i] = ft_strjoin_free(paths[i], "/");
 		paths[i] = ft_strjoin_free(paths[i], cmd->argv[0]);
-		// TODO Check access
-		// if (access(tmp, X_OK) == 0)
-		// {
-		// 	printf("added [%s] to paths\n", tmp);
-		// 	paths[i] = tmp;
-		// }
 		i++;
 	}
 	paths = strjoin_free_2d(cmd->cmd_paths, paths);
 	return (paths);
 }
 
-static char **append_abolute_path(t_cmd *cmd)
+static char **append_absolute_path(t_cmd *cmd)
 {
 	char **prefix;
 
@@ -86,7 +86,7 @@ static t_cmd 	*cmd_init(char *argv, char **envp)
 		free(cmd);
 		return (NULL);
 	}
-	cmd->cmd_paths = append_abolute_path(cmd);
+	cmd->cmd_paths = append_absolute_path(cmd);
 	if (!cmd->cmd_paths)
 		return (NULL);
 	path = find_path(envp);
@@ -101,24 +101,34 @@ static t_cmd 	*cmd_init(char *argv, char **envp)
 	return (cmd);
 }
 
-t_cmd **create_commands(char *args[], int count, char **envp)
+int 	create_commands(t_pipex *pipex, char *args[], char **envp)
 {
-	t_cmd **cmds;
-	
-	cmds = ft_calloc(sizeof(t_cmd *), count);
-	if (!cmds)
-		return (NULL);
-	int i = 0;
+	int 	i;
+	int 	count;
+
+	count = ft_str_arr_len(args);
+	pipex->cmds = ft_calloc(sizeof(t_cmd *), count);
+	if (!pipex->cmds)
+		error_exit(pipex, ERR_ALLOCATION_FAILURE);
+	i = 0;
 	while (i < count) 
 	{
-		cmds[i] = cmd_init(args[i], envp);
-		// TODO Check access.
-		if (!cmds[i])
+		pipex->cmds[i] = cmd_init(args[i], envp);
+		if (!pipex->cmds[i])
 		{
-			free_cmds(cmds, i);
-			return (NULL);
+			free_cmds(pipex->cmds, i);
+			error_exit(pipex, ERR_ALLOCATION_FAILURE);
 		}
 		i++;
 	}
-	return (cmds);
+	return (EXIT_SUCCESS);
 }
+
+// path = strdup argument
+//
+// while (acces(path) == -1)
+// {
+// 	free path
+// 	path = strjoin(argument + environment)
+// 	environment ++
+// }

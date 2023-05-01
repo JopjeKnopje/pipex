@@ -18,3 +18,4 @@ Simulating the shell's pipe operator
 [ ] Before adding the path to the cmd->cmd_paths check if we can run it with access.
 [ ] Have an exit function that also frees our memory 
 [ ] Bij iedere split in de envp meteen met access checken
+[ ] ft_split handle commands in quotes ex. (grep "text text") also handle awk n stuff

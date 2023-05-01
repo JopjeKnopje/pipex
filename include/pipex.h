@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/04/19 10:53:38 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/01 10:11:17 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,30 @@
 #include <string.h>
 #include <sys/wait.h>
 
+#define READ_END 0
+#define WRITE_END 1
+
 typedef struct s_cmd
 {
 	char **argv;    	// the argv with the program name ["cat -e", "e", "test_file.txt"]
 	char **cmd_paths; 	// the command with the appended path
 }	t_cmd;
 
+typedef struct s_pipex
+{
+	int 	files[2];
+	t_cmd	**cmds;
+
+}	t_pipex;
+
+typedef enum e_error
+{
+	ERR_ALLOCATION_FAILURE,
+}	t_error;
+
 
 // free.c
+void 	free_cmd(t_cmd *cmd);
 void 	free_cmds(t_cmd **cmds, unsigned int len);
 void	free_split(char **s_split);
 
@@ -45,8 +61,10 @@ int		put_str_error(char *s, char *t);
 
 
 // commands.c
-t_cmd	**create_commands(char *s_args[], int count, char **envp);
+int 	create_commands(t_pipex *pipex, char *args[], char **envp);
 
+// error.c
+void 	error_exit(t_pipex *pipex, t_error err);
 
 // meuk.c
 void	print_split(char **split);

@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/04/18 20:14:43 by joppe         ########   odam.nl          #
+#    Updated: 2023/05/01 10:44:26 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = pipex
 LIBFT = libft/build/libft.a
 
 # CFLAGS = -Wall -Wextra -Werror
-CFLAGS += -g -fsanitize=address
+# CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 
 
@@ -25,6 +25,7 @@ SRCS = main.c \
 	   parser.c \
 	   commands.c \
 	   free.c \
+	   error.c \
 	   meuk.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
