@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/01 10:45:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/01 15:49:45 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
+#include <unistd.h>
 
 
 static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
@@ -31,20 +32,24 @@ static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	}
 
+	pipe(pipex->pipes);
+
+
+	execute_procs(pipex);
+
 
 	int len = ft_str_arr_len(args);
-	print_cmds(pipex->cmds, len);
-
-   	
+	// print_cmds(pipex->cmds, len);
 	free_cmds(pipex->cmds, len);
 	free_split(args);
+
 	// Have all this stuff in a fucntion
 	// pipe()
 	// fork 2 times
 	// dup2 (fd_input/output_file, pipe)
 	// execve needs: (pathname, argv, envp)
 
-	return 0;
+	return (EXIT_SUCCESS);
 }
 
 void leaks()
@@ -58,6 +63,7 @@ int main(int argc, char *argv[], char *envp[])
 	ft_bzero(&pipex, sizeof(pipex));
 
 	// TODO: Maybe use perror()
+	// if (argc != 5)
 	if (argc < 5)
 		return (put_str_error("Invalid number of arguments", NULL));
 	if (str_is_empty(argv[2]) || str_is_empty(argv[3]))

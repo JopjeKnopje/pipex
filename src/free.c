@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 00:15:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/01 10:11:05 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/01 11:27:21 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void 	free_cmd(t_cmd *cmd)
 	free_split(cmd->cmd_paths);
 	free(cmd);
 }
-
 
 void	free_cmds(t_cmd **cmds, unsigned int len)
 {

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/01 10:44:17 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/01 16:26:57 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,10 @@ int 	create_commands(t_pipex *pipex, char *args[], char **envp)
 	int 	count;
 
 	count = ft_str_arr_len(args);
-	pipex->cmds = ft_calloc(sizeof(t_cmd *), count);
+	pipex->cmds = ft_calloc(sizeof(t_cmd *), count + 1);
 	if (!pipex->cmds)
 		error_exit(pipex, ERR_ALLOCATION_FAILURE);
+	pipex->envp = envp;
 	i = 0;
 	while (i < count) 
 	{

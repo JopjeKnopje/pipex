@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/01 10:11:17 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/01 11:31:41 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,22 @@ typedef struct s_cmd
 typedef struct s_pipex
 {
 	int 	files[2];
+	int 	pipes[2];
 	t_cmd	**cmds;
+	char	**envp;
 
 }	t_pipex;
 
 typedef enum e_error
 {
 	ERR_ALLOCATION_FAILURE,
+	ERR_FORK_FAILURE,
 }	t_error;
+
+
+
+// processes.c
+int execute_procs(t_pipex *pipex);
 
 
 // free.c
@@ -52,6 +60,7 @@ void	free_split(char **s_split);
 
 // utils.c
 char	**strjoin_free_2d(char **s_base, char **s_append);
+unsigned int cmd_count(t_pipex *pipex);
 
 
 // parser.c

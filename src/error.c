@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/19 16:10:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/04/19 17:45:13 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/01 11:02:17 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void error_exit(t_pipex *pipex, t_error err)
 {
 	const char *ERR_NAMES[] = {
 		"Malloc failure\n",
+		"Fork failure\n",
 	};
 
 	write(STDERR_FILENO, ERR_NAMES[err], ft_strlen(ERR_NAMES[err]));

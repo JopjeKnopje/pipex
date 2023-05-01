@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 22:52:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/01 10:28:34 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/01 11:42:03 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+
+unsigned int cmd_count(t_pipex *pipex)
+{
+	unsigned int len;
+	
+	len = 0;
+	while (pipex->cmds[len])
+	{
+		len++;
+	}
+	return (len);
+}
 
 char	**strjoin_free_2d(char **s_base, char **s_append)
 {
