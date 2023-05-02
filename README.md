@@ -17,6 +17,8 @@ Simulating the shell's pipe operator
 [ ] ft_split handle commands in quotes ex. (grep "text text") also handle awk n stuff
 [ ] in child_create if execve cant find 
 [x] also when we want to run files, totatlly ignore the path
+[ ] run all the processes paralell, and only wait in the parent when you are done with spawning processes
+[ ] pipex exitcode should be that of the last process
 
 
 ## How to handle certain commands

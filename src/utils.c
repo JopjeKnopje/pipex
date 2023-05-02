@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 22:52:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 13:49:51 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 14:57:06 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int cmds_get_runnable(t_cmd *cmd)
  	i = 0;
 	while (cmd->cmd_paths[i]) 
 	{
-		if (access(cmd->cmd_paths[i], X_OK))
+		if (access(cmd->cmd_paths[i], X_OK) == 0)
 			return (i);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 10:50:03 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 14:56:07 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef enum e_error
 {
 	ERR_ALLOCATION_FAILURE,
 	ERR_FORK_FAILURE,
+	ERR_EXEC_FAILURE,
 	ERR_SHELL_CMD_NOT_FOUND,
 	ERR_SHELL_FILE_NOT_FOUND,
 }	t_error;
@@ -63,6 +64,7 @@ void	free_split(char **s_split);
 // utils.c
 char	**strjoin_free_2d(char **s_base, char **s_append);
 unsigned int cmd_count(t_pipex *pipex);
+int		cmds_get_runnable(t_cmd *cmd);
 
 
 // parser.c

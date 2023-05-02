@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/02 13:36:14 by jboeve        ########   odam.nl          #
+#    Updated: 2023/05/02 15:11:39 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,7 @@ run: all
 	@# ./$(NAME) input_file.txt "/bin/ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "./test_exec" cat output_file.txt
-	./$(NAME) input_file.txt ./test_exec cat output_file.txt
+	./$(NAME) input_file.txt "./test_exec 32" ls output_file.txt
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb
