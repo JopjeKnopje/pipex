@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/02 16:59:38 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 21:04:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,10 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 	pid_t pid;
 	int runnable_index;
 
-
 	pid = fork();
 	if (pid == -1)
 		error_exit(pipex, ERR_FORK_FAILURE);
 
-
-	static int counter = 0;
 	if (pid == 0)
 	{
 		redirect_fd(pipex, cmd_index);
@@ -69,11 +66,7 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 			error_exit(pipex, ERR_EXEC_FAILURE);
 		}
 	}
-	else
-	{
-		return (pid);
-	}
-	return (-1);
+	return (pid);
 }
 
 int execute_procs(t_pipex *pipex)
@@ -90,12 +83,13 @@ int execute_procs(t_pipex *pipex)
 	close(pipex->pipes[READ_END]);
 	close(pipex->pipes[WRITE_END]);
 
-	// while (wait(NULL) != -1);
+	// TODO Just for deb
 	int status;
 	waitpid(pid, &status, WUNTRACED);
-	status = WEXITSTATUS(status);
-
-	exit(status);
+	if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
+	else
+		printf("child segfaulted\n");
 	return (status);
 }
 

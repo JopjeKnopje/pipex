@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/02 16:33:01 by jboeve        ########   odam.nl          #
+#    Updated: 2023/05/02 21:00:54 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = pipex
 LIBFT = libft/build/libft.a
 
 # CFLAGS = -Wall -Wextra -Werror
-# CFLAGS += -g -fsanitize=address
+CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 
 
@@ -55,7 +55,7 @@ endif
 
 .PHONY: make_libft
 
-all: make_libft $(NAME)
+all: make_libft $(NAME) test_exec
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) -o $(NAME)
@@ -63,6 +63,9 @@ $(NAME): $(OBJS) $(LIBFT)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
+
+test_exec: test_exec.c
+	gcc test_exec.c -o test_exec
 
 
 make_libft:
