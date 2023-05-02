@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 22:52:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 10:56:00 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 13:49:51 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,21 @@
 #include "pipex.h"
 #include <string.h>
 #include <stdio.h>
+#include <sys/unistd.h>
 #include <unistd.h>
 
-// TODO Implement
-t_cmd *command_is_runnable(t_cmd *cmd)
+int cmds_get_runnable(t_cmd *cmd)
 {
-	
+	int i;
 
+ 	i = 0;
+	while (cmd->cmd_paths[i]) 
+	{
+		if (access(cmd->cmd_paths[i], X_OK))
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 unsigned int cmd_count(t_pipex *pipex)

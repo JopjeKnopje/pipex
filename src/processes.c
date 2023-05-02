@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/02 10:55:48 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 13:45:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static int	child_create(t_pipex *pipex, unsigned int proc_counter)
+static int	child_create(t_pipex *pipex, unsigned int cmd_index)
 {
 	pid_t pid;
-	unsigned int i;
-	unsigned int j;
+	t_cmd *runnable_cmd;
 
-	i = 0;
 	pid = fork();
 	if (pid == -1)
 		error_exit(pipex, ERR_FORK_FAILURE);
@@ -30,6 +28,7 @@ static int	child_create(t_pipex *pipex, unsigned int proc_counter)
 	if (pid == 0)
 	{
 		// check with access if we can run the file/command, return said command.
+		runnable_cmd = cmds_get_runnable(pipex->cmds[cmd_index]);
 		// execve that shit
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 11:34:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 13:42:18 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 	// pipe(pipex->pipes);
 
 
-	// execute_procs(pipex);
+	execute_procs(pipex);
 	// execve(pipex->cmds[0]->cmd_paths[0], pipex->cmds[0]->argv, pipex->envp);
 
 
 	int len = ft_str_arr_len(args);
-	print_cmds(pipex->cmds, len);
+	// print_cmds(pipex->cmds, len);
 	free_cmds(pipex->cmds, len);
 	free_split(args);
 
