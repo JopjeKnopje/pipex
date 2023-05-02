@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 13:42:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 16:12:54 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	}
 
-	// pipe(pipex->pipes);
-
-
+	pipe(pipex->pipes);
 	execute_procs(pipex);
 	// execve(pipex->cmds[0]->cmd_paths[0], pipex->cmds[0]->argv, pipex->envp);
 
@@ -62,11 +60,11 @@ int main(int argc, char *argv[], char *envp[])
 {
 	t_pipex pipex;
 	ft_bzero(&pipex, sizeof(pipex));
+	printf("\n\n");
 
 	// TODO: Maybe use perror()
-	// if (argc != 5)
-	// if (argc < 5)
-	// 	return (put_str_error("Invalid number of arguments", NULL));
+	if (argc != 5)
+		return (put_str_error("Invalid number of arguments", NULL));
 	if (str_is_empty(argv[2]) || str_is_empty(argv[3]))
 		return (EXIT_FAILURE);
 	pipex.files[READ_END] = open(argv[1], O_RDONLY);
@@ -79,7 +77,6 @@ int main(int argc, char *argv[], char *envp[])
 	if (close(pipex.files[READ_END]) < 0 || close(pipex.files[WRITE_END]) < 0)
 		return (put_str_error(strerror(errno), "pipex->fd_input"));
 	leaks();
-	printf("\n\n");
 	return (EXIT_SUCCESS);
 }
 

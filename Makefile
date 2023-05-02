@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/02 15:11:39 by jboeve        ########   odam.nl          #
+#    Updated: 2023/05/02 16:33:01 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,8 +53,9 @@ ifdef TEST_BUILD
 CFLAGS += -DBUILD_TESTER
 endif
 
+.PHONY: make_libft
 
-all: $(NAME)
+all: make_libft $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) -o $(NAME)
@@ -63,8 +64,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-.PHONY: $(LIBFT)
-$(LIBFT):
+
+make_libft:
 	$(MAKE) -C libft
 
 clean:
@@ -84,7 +85,8 @@ run: all
 	@# ./$(NAME) input_file.txt "/bin/ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "./test_exec" cat output_file.txt
-	./$(NAME) input_file.txt "./test_exec 32" ls output_file.txt
+	rm -f output_file.txt
+	./$(NAME) input_file.txt "./test_exec 32" "cat" output_file.txt
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb

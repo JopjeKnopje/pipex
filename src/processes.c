@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/02 15:58:47 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 16:46:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,35 +27,35 @@ static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 
 		// dup2(oldfd, newfd)
 		dup2(pipex->files[READ_END], STDIN_FILENO);
-		dup2(STDOUT_FILENO, pipex->pipes[WRITE_END]);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		close(pipex->files[READ_END]);
-		close(pipex->pipes[WRITE_END]);
+		dup2(pipex->pipes[WRITE_END], STDOUT_FILENO);
 	}
 	else
 	{
 		printf("redirecting file to stdout...\n");
+
+		dup2(pipex->files[WRITE_END], STDOUT_FILENO);
 		dup2(pipex->pipes[READ_END], STDIN_FILENO);
-		dup2(STDOUT_FILENO, pipex->files[WRITE_END]);
-		close(pipex->files[READ_END]);
-		close(pipex->pipes[WRITE_END]);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
 	}
+	close(pipex->files[READ_END]);
+	close(pipex->files[WRITE_END]);
+	close(pipex->pipes[READ_END]);
+	close(pipex->pipes[WRITE_END]);
 
 	return 0;
 }
 
-static int	child_create(t_pipex *pipex, unsigned int cmd_index)
+static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 {
 	pid_t pid;
 	int runnable_index;
 
+	static int counter = 0;
 	pid = fork();
 	if (pid == -1)
 		error_exit(pipex, ERR_FORK_FAILURE);
 
+	printf("counter: %d\n", counter);
+	counter++;
 	if (pid == 0)
 	{
 		printf("created child to run %s\n", pipex->cmds[cmd_index]->argv[0]);
@@ -64,42 +64,42 @@ static int	child_create(t_pipex *pipex, unsigned int cmd_index)
 		if (runnable_index == -1)
 		{
 			// TODO Handle error.
-			printf("command not runnable\n");
+			fprintf(stderr,"command not runnable\n");
+			exit(0);
 		}
 		// execve that shit
 		if(execve(pipex->cmds[cmd_index]->cmd_paths[runnable_index], pipex->cmds[cmd_index]->argv, pipex->envp) == -1)
 		{
-			printf("execve failed with [%s]\n", strerror(errno));
+			fprintf(stderr, "execve failed with [%s]\n", strerror(errno));
 			// TODO Handle error.
 			error_exit(pipex, ERR_EXEC_FAILURE);
 		}
-		
 	}
 	else
 	{
-		int status;
-		// while (wait(NULL) != -1);
-		waitpid(pid, &status, WUNTRACED);
-		status = WEXITSTATUS(status);
-		printf("status %d\n", status);
+		fprintf(stderr, "hi from parent %d\n", counter);
 	}
-
-
-	return (0);
+	return (-1);
 }
 
 int execute_procs(t_pipex *pipex)
 {
 	unsigned int cmd_counter = 0;
 	unsigned int cmds = cmd_count(pipex);
-	// pipe(pipex->pipes);
 
+	pid_t pid;
 	while (cmd_counter < cmds)
 	{
-		child_create(pipex, cmd_counter);
+		pid = child_create(pipex, cmd_counter);
 		cmd_counter++;
 	}
 
+	while (wait(NULL) != -1);
+	// int status;
+	// waitpid(pid, &status, WUNTRACED);
+	// status = WEXITSTATUS(status);
+	// printf("status %d\n", status);
+	printf("waiting...\n");
 
 	return (0);
 }
