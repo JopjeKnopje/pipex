@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/02 16:49:47 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 16:59:38 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,12 @@ static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 	// the first index
 	if (!cmd_index)
 	{
-		printf("redirecting file to stdin...\n");
-
 		// dup2(oldfd, newfd)
 		dup2(pipex->files[READ_END], STDIN_FILENO);
 		dup2(pipex->pipes[WRITE_END], STDOUT_FILENO);
 	}
 	else
 	{
-		printf("redirecting file to stdout...\n");
-
 		dup2(pipex->files[WRITE_END], STDOUT_FILENO);
 		dup2(pipex->pipes[READ_END], STDIN_FILENO);
 	}
@@ -56,11 +52,8 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 
 
 	static int counter = 0;
-	printf("counter: %d\n", counter);
-	counter++;
 	if (pid == 0)
 	{
-		printf("created child to run %s\n", pipex->cmds[cmd_index]->argv[0]);
 		redirect_fd(pipex, cmd_index);
 		runnable_index = cmds_get_runnable(pipex->cmds[cmd_index]);
 		if (runnable_index == -1)
@@ -69,7 +62,6 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 			fprintf(stderr,"command not runnable\n");
 			exit(0);
 		}
-		// execve that shit
 		if(execve(pipex->cmds[cmd_index]->cmd_paths[runnable_index], pipex->cmds[cmd_index]->argv, pipex->envp) == -1)
 		{
 			fprintf(stderr, "execve failed with [%s]\n", strerror(errno));
@@ -79,7 +71,7 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 	}
 	else
 	{
-		fprintf(stderr, "hi from parent %d\n", counter);
+		return (pid);
 	}
 	return (-1);
 }
@@ -98,13 +90,12 @@ int execute_procs(t_pipex *pipex)
 	close(pipex->pipes[READ_END]);
 	close(pipex->pipes[WRITE_END]);
 
-	while (wait(NULL) != -1);
-	// int status;
-	// waitpid(pid, &status, WUNTRACED);
-	// status = WEXITSTATUS(status);
-	// printf("status %d\n", status);
-	printf("waiting...\n");
+	// while (wait(NULL) != -1);
+	int status;
+	waitpid(pid, &status, WUNTRACED);
+	status = WEXITSTATUS(status);
 
-	return (0);
+	exit(status);
+	return (status);
 }
 

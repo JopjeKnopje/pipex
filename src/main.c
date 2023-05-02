@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 16:12:54 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 16:58:51 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,13 @@ static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 		free_split(args);
 		return (EXIT_FAILURE);
 	}
-
 	pipe(pipex->pipes);
 	execute_procs(pipex);
-	// execve(pipex->cmds[0]->cmd_paths[0], pipex->cmds[0]->argv, pipex->envp);
-
 
 	int len = ft_str_arr_len(args);
 	// print_cmds(pipex->cmds, len);
 	free_cmds(pipex->cmds, len);
 	free_split(args);
-
-	// Have all this stuff in a fucntion
-	// pipe()
-	// fork 2 times
-	// dup2 (fd_input/output_file, pipe)
-	// execve needs: (pathname, argv, envp)
 
 	return (EXIT_SUCCESS);
 }
@@ -60,7 +51,6 @@ int main(int argc, char *argv[], char *envp[])
 {
 	t_pipex pipex;
 	ft_bzero(&pipex, sizeof(pipex));
-	printf("\n\n");
 
 	// TODO: Maybe use perror()
 	if (argc != 5)
