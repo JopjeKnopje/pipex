@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/02 16:46:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 16:49:47 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,13 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 	pid_t pid;
 	int runnable_index;
 
-	static int counter = 0;
+
 	pid = fork();
 	if (pid == -1)
 		error_exit(pipex, ERR_FORK_FAILURE);
 
+
+	static int counter = 0;
 	printf("counter: %d\n", counter);
 	counter++;
 	if (pid == 0)
@@ -93,6 +95,8 @@ int execute_procs(t_pipex *pipex)
 		pid = child_create(pipex, cmd_counter);
 		cmd_counter++;
 	}
+	close(pipex->pipes[READ_END]);
+	close(pipex->pipes[WRITE_END]);
 
 	while (wait(NULL) != -1);
 	// int status;
