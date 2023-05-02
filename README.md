@@ -20,3 +20,20 @@ Simulating the shell's pipe operator
 [ ] Bij iedere split in de envp meteen met access checken
 [ ] ft_split handle commands in quotes ex. (grep "text text") also handle awk n stuff
 [ ] in child_create if execve cant find 
+[ ] also when we want to run files, totatlly ignore the path
+
+
+## How to handle certain commands
+
+### bash: cmd: command not found
+"cmd arg1"
+cmd
+
+
+### bash: ./cmd: No such file or directory
+#### also when we want to run files, totatlly ignore the path
+/path/to/cmd
+"/path/to/cmd arg1"
+
+./path/to/cmd
+"./path/to/cmd arg1"

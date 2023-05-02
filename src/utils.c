@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 22:52:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/01 11:42:03 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 10:56:00 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+
+// TODO Implement
+t_cmd *command_is_runnable(t_cmd *cmd)
+{
+	
+
+}
 
 unsigned int cmd_count(t_pipex *pipex)
 {

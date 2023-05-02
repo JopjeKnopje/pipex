@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/01 15:54:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 10:55:48 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,8 @@ static int	child_create(t_pipex *pipex, unsigned int proc_counter)
 
 	if (pid == 0)
 	{
-		while (pipex->cmds[proc_counter]->cmd_paths[i])
-		{
-			// TODO Check access
-			if (access(pipex->cmds[proc_counter]->cmd_paths[i], X_OK) == -1)
-			{
-				printf("access failed %s\n", pipex->cmds[proc_counter]->argv[0]);
-			}
-			else
-				execve(pipex->cmds[proc_counter]->cmd_paths[i], pipex->cmds[proc_counter]->argv, pipex->envp);
-			i++;
-		}
-		printf("could not find executable %s\n", pipex->cmds[proc_counter]->argv[0]);
-		exit(0);
+		// check with access if we can run the file/command, return said command.
+		// execve that shit
 	}
 	else
 	{
@@ -54,14 +43,14 @@ static int	child_create(t_pipex *pipex, unsigned int proc_counter)
 
 int execute_procs(t_pipex *pipex)
 {
-	unsigned int proc_counter = 0;
+	unsigned int cmd_counter = 0;
 	unsigned int cmds = cmd_count(pipex);
 	// pipe(pipex->pipes);
 
-	while (proc_counter < cmds)
+	while (cmd_counter < cmds)
 	{
-		child_create(pipex, proc_counter);
-		proc_counter++;
+		child_create(pipex, cmd_counter);
+		cmd_counter++;
 	}
 
 

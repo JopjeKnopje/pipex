@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/01 11:31:41 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 10:50:03 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef enum e_error
 {
 	ERR_ALLOCATION_FAILURE,
 	ERR_FORK_FAILURE,
+	ERR_SHELL_CMD_NOT_FOUND,
+	ERR_SHELL_FILE_NOT_FOUND,
 }	t_error;
 
 

@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/01 11:27:56 by jboeve        ########   odam.nl          #
+#    Updated: 2023/05/02 13:13:48 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,9 +77,14 @@ fclean: clean
 re: fclean dfclean all
 
 run: all
-	# ./$(NAME) input_file.txt "cat" "sort -n" output_file.txt
-	./$(NAME) input_file.txt "test_exec 1" "prog2 1" "prog3 1" output_file.txt
-	@# cat output_file.txt
+	@# ./$(NAME) input_file.txt "test_exec 1" "prog2 1" "prog3 1" output_file.txt
+	@# ./$(NAME) input_file.txt ./bin/ls output_file.txt
+	@# ./$(NAME) input_file.txt /bin/ls cat output_file.txt
+	@# ./$(NAME) input_file.txt ls cat output_file.txt
+	@# ./$(NAME) input_file.txt "./bin/ls -la" cat output_file.txt
+	@# ./$(NAME) input_file.txt "/bin/ls -la" cat output_file.txt
+	@# ./$(NAME) input_file.txt "ls -la" cat output_file.txt
+	./$(NAME) input_file.txt "./test_exec" cat output_file.txt
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb
@@ -88,6 +93,9 @@ dfclean:
 	$(MAKE) -C libft fclean
 dre:
 	$(MAKE) -C libft re
+
+mem:
+	memdetect/memdetect.sh . $(CFLAGS) $(INC) -e test_exec --args "input_file.txt" "ls" "cat" "output_file.txt"
 
 $(TEST_BIN_DIR)/%: $(TEST_DIR)/%.c
 	@mkdir -p $(TEST_BIN_DIR)

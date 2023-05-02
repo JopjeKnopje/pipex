@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/01 15:48:19 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 11:16:48 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int		str_is_empty(char *s)
 {
 	int i;
 
+	if (!s)
+		return (1);
 	i = 0;
 	while (s[i]) 
 	{
