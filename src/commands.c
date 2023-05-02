@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 13:09:13 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 13:19:09 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,9 @@ static char **append_path_env(t_cmd *cmd, char *path)
 	return (paths);
 }
 
+// TODO Memleaks
 static int append_path_file(t_cmd *cmd)
 {
-	// char **prefix;
-	//
-	// prefix = ft_calloc(sizeof(char *), 2);
-	// if (!prefix)
-	// 	return (NULL);
-	// prefix[0] = ft_strdup(cmd->argv[0]);
-	// if (!prefix[0])
-	// 	return (NULL);
-	// return (prefix);
 	cmd->cmd_paths = ft_calloc(sizeof(char *), 2);
 	if (!cmd->cmd_paths)
 		return (0);
@@ -87,7 +79,6 @@ static int cmd_is_file(t_cmd *cmd)
 static t_cmd 	*cmd_init(char *argv, char **envp)
 {
 	t_cmd	*cmd;
-	char	*path;
 
 	cmd = ft_calloc(sizeof(t_cmd), 1);
 	if (!cmd)
@@ -105,9 +96,7 @@ static t_cmd 	*cmd_init(char *argv, char **envp)
 	}
 	else 
 	{
-		path = find_path(envp);
-		if (path)
-			cmd->cmd_paths = append_path_env(cmd, path);
+		cmd->cmd_paths = append_path_env(cmd, find_path(envp));
 		if (!cmd->cmd_paths)
 		{
 			free_split(cmd->argv);
