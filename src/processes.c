@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/02 15:20:08 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/02 15:58:47 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,36 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+// Currently supports only 2 cmds
+static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
+{
+	// the first index
+	if (!cmd_index)
+	{
+		printf("redirecting file to stdin...\n");
+
+		// dup2(oldfd, newfd)
+		dup2(pipex->files[READ_END], STDIN_FILENO);
+		dup2(STDOUT_FILENO, pipex->pipes[WRITE_END]);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		close(pipex->files[READ_END]);
+		close(pipex->pipes[WRITE_END]);
+	}
+	else
+	{
+		printf("redirecting file to stdout...\n");
+		dup2(pipex->pipes[READ_END], STDIN_FILENO);
+		dup2(STDOUT_FILENO, pipex->files[WRITE_END]);
+		close(pipex->files[READ_END]);
+		close(pipex->pipes[WRITE_END]);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+	}
+
+	return 0;
+}
 
 static int	child_create(t_pipex *pipex, unsigned int cmd_index)
 {
@@ -29,6 +59,7 @@ static int	child_create(t_pipex *pipex, unsigned int cmd_index)
 	if (pid == 0)
 	{
 		printf("created child to run %s\n", pipex->cmds[cmd_index]->argv[0]);
+		redirect_fd(pipex, cmd_index);
 		runnable_index = cmds_get_runnable(pipex->cmds[cmd_index]);
 		if (runnable_index == -1)
 		{
