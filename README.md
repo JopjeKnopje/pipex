@@ -14,12 +14,14 @@ Simulating the shell's pipe operator
 
 ## TODO
 [ ] Have an exit function that also frees our memory 
-[ ] ft_split handle commands in quotes ex. (grep "text text") also handle awk n stuff
-[ ] in child_create if execve cant find 
-[x] also when we want to run files, totatlly ignore the path
 [ ] run all the processes paralell, and only wait in the parent when you are done with spawning processes
 [ ] pipex exitcode should be that of the last process
+[ ] if we the program we execve segfaults we can detect it,
+but if we segfault before the execve in the child. our entire program segvs (lag aan debug flags oeleh)
 
+## Exit codes
+* If the commands are runnable, always return the exitcode of the last process.
+Een if one of the commands before it crashes or segfaults. (that is how bash handles it)
 
 ## How to handle certain commands
 

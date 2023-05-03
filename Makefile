@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/02 21:00:54 by joppe         ########   odam.nl          #
+#    Updated: 2023/05/03 14:00:30 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 test_exec: test_exec.c
-	gcc test_exec.c -o test_exec
+	gcc test_exec.c -o  -g -fsanitize=address test_exec
 
 
 make_libft:

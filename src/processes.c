@@ -6,14 +6,18 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/02 21:04:00 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/03 13:59:56 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "pipex.h"
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/_types/_pid_t.h>
+#include <sys/signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -59,6 +63,11 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 			fprintf(stderr,"command not runnable\n");
 			exit(0);
 		}
+		// if (cmd_index == 1)
+		// {
+		// 	char *s = "1";
+		// 	s[2] = 'a';
+		// }
 		if(execve(pipex->cmds[cmd_index]->cmd_paths[runnable_index], pipex->cmds[cmd_index]->argv, pipex->envp) == -1)
 		{
 			fprintf(stderr, "execve failed with [%s]\n", strerror(errno));
@@ -75,21 +84,32 @@ int execute_procs(t_pipex *pipex)
 	unsigned int cmds = cmd_count(pipex);
 
 	pid_t pid;
+
 	while (cmd_counter < cmds)
 	{
 		pid = child_create(pipex, cmd_counter);
+		printf("exit_status %d\n", pid);
 		cmd_counter++;
 	}
 	close(pipex->pipes[READ_END]);
 	close(pipex->pipes[WRITE_END]);
 
-	// TODO Just for deb
 	int status;
+	int exit_status;
+
 	waitpid(pid, &status, WUNTRACED);
 	if (WIFEXITED(status))
-		status = WEXITSTATUS(status);
-	else
-		printf("child segfaulted\n");
-	return (status);
+	{
+		exit_status = WEXITSTATUS(status);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		exit_status = WTERMSIG(status) + SIGNAL_OFFSET;
+		printf("SIGNAL RECIEVED\n");
+	}
+	else if (WIFSTOPPED(status))
+	{
+		exit_status = WSTOPSIG(status);
+	}
+	return (exit_status);
 }
-

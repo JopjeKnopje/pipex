@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 14:56:07 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/03 13:04:37 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 #define READ_END 0
 #define WRITE_END 1
+#define SIGNAL_OFFSET 128
 
 typedef struct s_cmd
 {

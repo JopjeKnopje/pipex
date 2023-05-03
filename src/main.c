@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 16:58:51 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/03 12:49:05 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	}
 	pipe(pipex->pipes);
-	execute_procs(pipex);
+	int exit_status = execute_procs(pipex);
 
 	int len = ft_str_arr_len(args);
 	// print_cmds(pipex->cmds, len);
 	free_cmds(pipex->cmds, len);
 	free_split(args);
 
-	return (EXIT_SUCCESS);
+	return (exit_status);
 }
 
 void leaks()
@@ -63,10 +63,10 @@ int main(int argc, char *argv[], char *envp[])
 		return (put_str_error(strerror(errno), argv[1]));
 	if (pipex.files[WRITE_END] == -1)
 		return (put_str_error(strerror(errno), argv[argc - 1]));
-	do_pipex(&pipex, argv, envp);
+	int exit_status = do_pipex(&pipex, argv, envp);
 	if (close(pipex.files[READ_END]) < 0 || close(pipex.files[WRITE_END]) < 0)
 		return (put_str_error(strerror(errno), "pipex->fd_input"));
 	leaks();
-	return (EXIT_SUCCESS);
+	return (exit_status);
 }
 
