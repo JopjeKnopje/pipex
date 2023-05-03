@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/03 22:59:51 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/03 23:03:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int execute_procs(t_pipex *pipex)
 				int signal_status = WTERMSIG(status);
 				exit_status = signal_status + SIGNAL_OFFSET;
 				printf("%s (core dumped) [%d]\n", strsignal(signal_status), core_dump);
-				exit(exit_status);
+				return (exit_status);
 			}
 			else if (WIFSTOPPED(status))
 			{

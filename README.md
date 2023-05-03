@@ -28,6 +28,13 @@ with exit code 139.
 Do we also need to print the Segfault message?
 
 
+## Sleep
+when running this command we wait on the sleep and totatlly ignore the segfault 
+./test_exec seg | sleep 5
+
+Same here except we now return the segfault
+sleep 5 | ./test_exec seg
+
 ## Exit codes
 * If the commands are runnable, always return the exitcode of the last process.
 even if one of the commands before it crashes or segfaults. (that is how bash handles it)
