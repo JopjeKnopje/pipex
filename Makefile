@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/03 14:00:30 by jboeve        ########   odam.nl          #
+#    Updated: 2023/05/03 17:05:49 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LIBFT = libft/build/libft.a
 CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 
+
 
 SRC_DIR = src
 SRCS = main.c \
@@ -64,8 +65,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-test_exec: test_exec.c
-	gcc test_exec.c -o  -g -fsanitize=address test_exec
+test_exec: test_exec.c $(LIBFT)
+	gcc test_exec.c $(INC) $(FLAGS) $(LIBFT) -o test_exec 
 
 
 make_libft:

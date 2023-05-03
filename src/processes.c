@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/03 13:59:56 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/03 16:56:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/_types/_pid_t.h>
-#include <sys/signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
