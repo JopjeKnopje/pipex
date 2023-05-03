@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/03 12:49:05 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/03 22:26:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "pipex.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <strings.h>
 #include <unistd.h>
 
@@ -69,4 +70,3 @@ int main(int argc, char *argv[], char *envp[])
 	leaks();
 	return (exit_status);
 }
-

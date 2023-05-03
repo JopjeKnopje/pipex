@@ -19,9 +19,18 @@ Simulating the shell's pipe operator
 [ ] if we the program we execve segfaults we can detect it,
 but if we segfault before the execve in the child. our entire program segvs (lag aan debug flags oeleh)
 
+
+
+## Segfault
+
+When you run `./test_exec 0 | ./test_exec seg` it says "Segmentation fault (core dumped)" 
+with exit code 139.
+Do we also need to print the Segfault message?
+
+
 ## Exit codes
 * If the commands are runnable, always return the exitcode of the last process.
-Een if one of the commands before it crashes or segfaults. (that is how bash handles it)
+even if one of the commands before it crashes or segfaults. (that is how bash handles it)
 
 ## How to handle certain commands
 

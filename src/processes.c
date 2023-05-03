@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/03 16:56:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/03 22:59:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,7 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 			fprintf(stderr,"command not runnable\n");
 			exit(0);
 		}
-		// if (cmd_index == 1)
-		// {
-		// 	char *s = "1";
-		// 	s[2] = 'a';
-		// }
+		// sleep(99999);
 		if(execve(pipex->cmds[cmd_index]->cmd_paths[runnable_index], pipex->cmds[cmd_index]->argv, pipex->envp) == -1)
 		{
 			fprintf(stderr, "execve failed with [%s]\n", strerror(errno));
@@ -81,33 +77,44 @@ int execute_procs(t_pipex *pipex)
 	unsigned int cmd_counter = 0;
 	unsigned int cmds = cmd_count(pipex);
 
-	pid_t pid;
+	pid_t pid[cmds];
 
 	while (cmd_counter < cmds)
 	{
-		pid = child_create(pipex, cmd_counter);
-		printf("exit_status %d\n", pid);
+		pid[cmd_counter] = child_create(pipex, cmd_counter);
+		printf("pid %d\n", pid[cmd_counter]);
 		cmd_counter++;
 	}
 	close(pipex->pipes[READ_END]);
 	close(pipex->pipes[WRITE_END]);
 
+	cmd_counter = 0;
+
 	int status;
 	int exit_status;
-
-	waitpid(pid, &status, WUNTRACED);
-	if (WIFEXITED(status))
+	while (cmd_counter < cmds)
 	{
-		exit_status = WEXITSTATUS(status);
-	}
-	else if (WIFSIGNALED(status))
-	{
-		exit_status = WTERMSIG(status) + SIGNAL_OFFSET;
-		printf("SIGNAL RECIEVED\n");
-	}
-	else if (WIFSTOPPED(status))
-	{
-		exit_status = WSTOPSIG(status);
+		waitpid(pid[cmd_counter], &status, WUNTRACED);
+		{
+			if (WIFEXITED(status))
+			{
+				exit_status = WEXITSTATUS(status);
+			}
+			else if (WIFSIGNALED(status))
+			{
+				int core_dump = (WCOREDUMP(status) > 0);
+				int signal_status = WTERMSIG(status);
+				exit_status = signal_status + SIGNAL_OFFSET;
+				printf("%s (core dumped) [%d]\n", strsignal(signal_status), core_dump);
+				exit(exit_status);
+			}
+			else if (WIFSTOPPED(status))
+			{
+				exit_status = WSTOPSIG(status);
+			}
+		}
+		cmd_counter++;
 	}
 	return (exit_status);
+
 }
