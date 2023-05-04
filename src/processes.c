@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/03 23:03:17 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 01:43:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 // Currently supports only 2 cmds
 static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 {
-	// the first index
 	if (!cmd_index)
 	{
 		// dup2(oldfd, newfd)
@@ -39,7 +38,7 @@ static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 	close(pipex->pipes[READ_END]);
 	close(pipex->pipes[WRITE_END]);
 
-	return 0;
+	return (0);
 }
 
 static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
@@ -50,7 +49,6 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 	pid = fork();
 	if (pid == -1)
 		error_exit(pipex, ERR_FORK_FAILURE);
-
 	if (pid == 0)
 	{
 		redirect_fd(pipex, cmd_index);
@@ -61,7 +59,6 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 			fprintf(stderr,"command not runnable\n");
 			exit(0);
 		}
-		// sleep(99999);
 		if(execve(pipex->cmds[cmd_index]->cmd_paths[runnable_index], pipex->cmds[cmd_index]->argv, pipex->envp) == -1)
 		{
 			fprintf(stderr, "execve failed with [%s]\n", strerror(errno));
@@ -72,49 +69,38 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 	return (pid);
 }
 
+static int wait_for_children(pid_t pid)
+{
+	int status;
+	int exit_status;
+
+	waitpid(pid, &status, 0);
+	while (wait(NULL) != -1)
+		;
+
+	exit_status = -1;
+	if (WIFEXITED(status))
+		exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		exit_status = error_code_child_crash(status);
+	return (exit_status);
+}
+
 int execute_procs(t_pipex *pipex)
 {
-	unsigned int cmd_counter = 0;
-	unsigned int cmds = cmd_count(pipex);
+	unsigned int count;
+	unsigned int i;
+	pid_t pid;
 
-	pid_t pid[cmds];
-
-	while (cmd_counter < cmds)
+	i = 0;
+	count = cmd_count(pipex);
+	while (i < count)
 	{
-		pid[cmd_counter] = child_create(pipex, cmd_counter);
-		printf("pid %d\n", pid[cmd_counter]);
-		cmd_counter++;
+		pid = child_create(pipex, i);
+		printf("pid %d\n", pid);
+		i++;
 	}
 	close(pipex->pipes[READ_END]);
 	close(pipex->pipes[WRITE_END]);
-
-	cmd_counter = 0;
-
-	int status;
-	int exit_status;
-	while (cmd_counter < cmds)
-	{
-		waitpid(pid[cmd_counter], &status, WUNTRACED);
-		{
-			if (WIFEXITED(status))
-			{
-				exit_status = WEXITSTATUS(status);
-			}
-			else if (WIFSIGNALED(status))
-			{
-				int core_dump = (WCOREDUMP(status) > 0);
-				int signal_status = WTERMSIG(status);
-				exit_status = signal_status + SIGNAL_OFFSET;
-				printf("%s (core dumped) [%d]\n", strsignal(signal_status), core_dump);
-				return (exit_status);
-			}
-			else if (WIFSTOPPED(status))
-			{
-				exit_status = WSTOPSIG(status);
-			}
-		}
-		cmd_counter++;
-	}
-	return (exit_status);
-
+	return (wait_for_children(pid));
 }
