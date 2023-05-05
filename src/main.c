@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 02:16:43 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 02:33:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,9 @@ int main(int argc, char *argv[], char *envp[])
 	ft_bzero(&pipex, sizeof(pipex));
 
 	if (argc != 5)
-		return (put_str_error("Invalid number of arguments", NULL));
+		(error_exit(&pipex, ERR_PIPEX_ARG_COUNT));
 	if (str_is_empty(argv[2]) || str_is_empty(argv[3]))
-	{
-		printf("string empty\n");
 		return (EXIT_FAILURE);
-	}
 	pipex.files[READ_END] = open(argv[1], O_RDONLY);
 	pipex.files[WRITE_END] = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex.files[READ_END] == -1)

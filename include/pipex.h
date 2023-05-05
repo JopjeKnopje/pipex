@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 02:16:42 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 02:18:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef enum e_error
 	ERR_PIPEX_ALLOCATION_FAILURE,
 	ERR_PIPEX_FORK_FAILURE,
 	ERR_PIPEX_EXEC_FAILURE,
+	ERR_PIPEX_ARG_COUNT,
 	ERR_SHELL_CMD_NOT_FOUND,
 	ERR_SHELL_FILE_NOT_FOUND,
 	ERR_COUNT,

@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/19 16:10:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/05 02:16:32 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 02:34:26 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,9 @@ void error_exit(t_pipex *pipex, t_error err)
 		"Fork failure\n",
 	};
 
-
 	write(STDERR_FILENO, ERR_NAMES[err], ft_strlen(ERR_NAMES[err]));
 	exit(EXIT_FAILURE);
 }
-
-
 
 static void error_command_not_found(char *s)
 {
