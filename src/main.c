@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 02:33:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 16:53:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 	return (exit_status);
 }
 
-void leaks()
-{
-	// system("leaks -q pipex");
-}
-
 int main(int argc, char *argv[], char *envp[])
 {
 	t_pipex pipex;
@@ -54,17 +49,16 @@ int main(int argc, char *argv[], char *envp[])
 
 	if (argc != 5)
 		(error_exit(&pipex, ERR_PIPEX_ARG_COUNT));
-	if (str_is_empty(argv[2]) || str_is_empty(argv[3]))
+	if (cmd_is_empty(argv[2]) || cmd_is_empty(argv[3]))
 		return (EXIT_FAILURE);
 	pipex.files[READ_END] = open(argv[1], O_RDONLY);
 	pipex.files[WRITE_END] = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex.files[READ_END] == -1)
-		return (put_str_error(strerror(errno), argv[1]));
+		return (error_message(strerror(errno), argv[1]));
 	if (pipex.files[WRITE_END] == -1)
-		return (put_str_error(strerror(errno), argv[argc - 1]));
+		return (error_message(strerror(errno), argv[argc - 1]));
 	exit_status = do_pipex(&pipex, argv, envp);
 	if (close(pipex.files[READ_END]) < 0 || close(pipex.files[WRITE_END]) < 0)
-		return (put_str_error(strerror(errno), "pipex->fd_input"));
-	leaks();
+		return (error_message(strerror(errno), "pipex->fd_input"));
 	return (exit_status);
 }

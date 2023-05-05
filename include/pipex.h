@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 02:18:34 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 16:55:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,16 @@ typedef enum e_error
 	ERR_COUNT,
 }	t_error;
 
+static const char *ERR_NAMES[] = {
+	"Malloc failure",
+	"Fork failure",
+	"Exec failure",
+	"Usage: pipex input_file \"cmd1 args\" \"cmd2 args\" output_file",
+	"command not found",
+	"No such file or directory",
+};
+
+
 
 
 // processes.c
@@ -68,15 +78,15 @@ int		cmds_get_runnable(t_cmd *cmd);
 
 // parser.c
 char	**parse_args(char *argv[]);
+int		cmd_is_empty(char *s);
 
 // commands.c
 int 	create_commands(t_pipex *pipex, char *args[], char **envp);
 
 // error.c
-void 	error_exit(t_pipex *pipex, t_error err);
 int 	error_code_child_crash(int status);
-int		str_is_empty(char *s);
-int		put_str_error(char *s, char *t);
+void 	error_exit(t_pipex *pipex, t_error err);
+int		error_message(char *s, char *arg);
 
 // meuk.c
 void	print_split(char **split);

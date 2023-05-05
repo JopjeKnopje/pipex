@@ -6,11 +6,14 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/19 16:10:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/05 02:34:26 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 16:54:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "pipex.h"
+#include <string.h>
+#include <unistd.h>
 
 int error_code_child_crash(int status)
 {
@@ -27,51 +30,24 @@ int error_code_child_crash(int status)
 // TODO Free stuff from pipex struct
 void error_exit(t_pipex *pipex, t_error err)
 {
-	const char *ERR_NAMES[] = {
-		"Malloc failure\n",
-		"Fork failure\n",
-	};
 
 	write(STDERR_FILENO, ERR_NAMES[err], ft_strlen(ERR_NAMES[err]));
+	write(STDERR_FILENO, "\n", 1);
 	exit(EXIT_FAILURE);
 }
 
-static void error_command_not_found(char *s)
-{
-	write(2, "-bash: ", 7);
-	write(2, s, ft_strlen(s));
-	write(2, ": ", 2);
-	write(2, "command not found\n", 18);
-}
-
-int		str_is_empty(char *s)
-{
-	int i;
-
-	if (!s)
-		return (1);
-	i = 0;
-	while (s[i]) 
-	{
-		if (s[i] != ' ')
-			return (0);
-		i++;
-	}
-	error_command_not_found(s);
-	return (1);
-}
-
-int	put_str_error(char *s, char *t)
+int	error_message(char *s, char *cmd)
 {
 	if (!s)
 		return (2);
-	if (t)
+	if (cmd)
 	{
-		write(2, "-bash: ", 7);
-		write(2, t, ft_strlen(t));
-		write(2, ": ", 2);
+		write(STDERR_FILENO, "-bash: ", 7);
+		write(STDERR_FILENO, cmd, ft_strlen(cmd));
+		write(STDERR_FILENO, ": ", 2);
 	}
-	write(2, s, ft_strlen(s));
-	write(2, "\n", 1);
+	write(STDERR_FILENO, s, ft_strlen(s));
+	write(STDERR_FILENO, "\n", 1);
 	return (2);
 }
+

@@ -19,6 +19,9 @@ Simulating the shell's pipe operator
 [ ] if we the program we execve segfaults we can detect it,
 but if we segfault before the execve in the child. our entire program segvs (lag aan debug flags oeleh)
 
+## Error handling
+2 types of error, we have errno
+
 
 
 ## Segfault
