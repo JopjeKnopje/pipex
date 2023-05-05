@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 16:55:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 17:29:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,6 @@ static const char *ERR_NAMES[] = {
 	"No such file or directory",
 };
 
-
-
-
 // processes.c
 int execute_procs(t_pipex *pipex);
 
@@ -78,7 +75,7 @@ int		cmds_get_runnable(t_cmd *cmd);
 
 // parser.c
 char	**parse_args(char *argv[]);
-int		cmd_is_empty(char *s);
+int		str_is_empty(char *s);
 
 // commands.c
 int 	create_commands(t_pipex *pipex, char *args[], char **envp);

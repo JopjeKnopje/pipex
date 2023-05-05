@@ -18,9 +18,9 @@ Simulating the shell's pipe operator
 [ ] pipex exitcode should be that of the last process
 [ ] if we the program we execve segfaults we can detect it,
 but if we segfault before the execve in the child. our entire program segvs (lag aan debug flags oeleh)
+[ ] Error handleing in main is done
 
 ## Error handling
-2 types of error, we have errno
 
 
 
