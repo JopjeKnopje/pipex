@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/02 11:16:48 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/05 02:16:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,44 +41,4 @@ char	**parse_args(char *argv[])
 		i++;
 	}
 	return (args_base);
-}
-
-static void error_command_not_found(char *s)
-{
-	write(2, "-bash: ", 7);
-	write(2, s, ft_strlen(s));
-	write(2, ": ", 2);
-	write(2, "command not found\n", 18);
-}
-
-int		str_is_empty(char *s)
-{
-	int i;
-
-	if (!s)
-		return (1);
-	i = 0;
-	while (s[i]) 
-	{
-		if (s[i] != ' ')
-			return (0);
-		i++;
-	}
-	error_command_not_found(s);
-	return (1);
-}
-
-int	put_str_error(char *s, char *t)
-{
-	if (!s)
-		return (2);
-	if (t)
-	{
-		write(2, "-bash: ", 7);
-		write(2, t, ft_strlen(t));
-		write(2, ": ", 2);
-	}
-	write(2, s, ft_strlen(s));
-	write(2, "\n", 1);
-	return (2);
 }

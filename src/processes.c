@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/05 01:43:39 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 02:00:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,19 @@ static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 	return (0);
 }
 
+static int error_code_cmd_invalid(t_cmd *cmd)
+{
+	if (ft_strnstr(cmd->argv[0], "./", ft_strlen(cmd->argv[0])))
+	{
+		fprintf(stderr, "is file\n");
+	}
+	else {
+		fprintf(stderr, "is command\n");
+	}
+
+	return 0;
+}
+
 static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 {
 	pid_t pid;
@@ -48,13 +61,14 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 
 	pid = fork();
 	if (pid == -1)
-		error_exit(pipex, ERR_FORK_FAILURE);
+		error_exit(pipex, ERR_PIPEX_FORK_FAILURE);
 	if (pid == 0)
 	{
 		redirect_fd(pipex, cmd_index);
 		runnable_index = cmds_get_runnable(pipex->cmds[cmd_index]);
 		if (runnable_index == -1)
 		{
+			error_code_cmd_invalid(pipex->cmds[cmd_index]);
 			// TODO Handle error.
 			fprintf(stderr,"command not runnable\n");
 			exit(0);
@@ -63,7 +77,7 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 		{
 			fprintf(stderr, "execve failed with [%s]\n", strerror(errno));
 			// TODO Handle error.
-			error_exit(pipex, ERR_EXEC_FAILURE);
+			error_exit(pipex, ERR_PIPEX_EXEC_FAILURE);
 		}
 	}
 	return (pid);

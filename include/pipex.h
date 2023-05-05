@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 01:44:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 02:16:42 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ typedef struct s_pipex
 
 typedef enum e_error
 {
-	ERR_ALLOCATION_FAILURE,
-	ERR_FORK_FAILURE,
-	ERR_EXEC_FAILURE,
+	ERR_PIPEX_ALLOCATION_FAILURE,
+	ERR_PIPEX_FORK_FAILURE,
+	ERR_PIPEX_EXEC_FAILURE,
 	ERR_SHELL_CMD_NOT_FOUND,
 	ERR_SHELL_FILE_NOT_FOUND,
+	ERR_COUNT,
 }	t_error;
 
 
@@ -56,8 +57,7 @@ typedef enum e_error
 int execute_procs(t_pipex *pipex);
 
 // free.c
-void 	free_cmd(t_cmd *cmd);
-void 	free_cmds(t_cmd **cmds, unsigned int len);
+void 	free_cmds(t_cmd **cmds);
 void	free_split(char **s_split);
 
 // utils.c
@@ -67,8 +67,6 @@ int		cmds_get_runnable(t_cmd *cmd);
 
 // parser.c
 char	**parse_args(char *argv[]);
-int		str_is_empty(char *s);
-int		put_str_error(char *s, char *t);
 
 // commands.c
 int 	create_commands(t_pipex *pipex, char *args[], char **envp);
@@ -76,6 +74,8 @@ int 	create_commands(t_pipex *pipex, char *args[], char **envp);
 // error.c
 void 	error_exit(t_pipex *pipex, t_error err);
 int 	error_code_child_crash(int status);
+int		str_is_empty(char *s);
+int		put_str_error(char *s, char *t);
 
 // meuk.c
 void	print_split(char **split);

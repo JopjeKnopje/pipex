@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/03 22:26:15 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 02:16:43 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <string.h>
 #include <strings.h>
 #include <unistd.h>
-
 
 static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 {
@@ -35,9 +34,8 @@ static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 	pipe(pipex->pipes);
 	int exit_status = execute_procs(pipex);
 
-	int len = ft_str_arr_len(args);
 	// print_cmds(pipex->cmds, len);
-	free_cmds(pipex->cmds, len);
+	free_cmds(pipex->cmds);
 	free_split(args);
 
 	return (exit_status);
@@ -51,20 +49,23 @@ void leaks()
 int main(int argc, char *argv[], char *envp[])
 {
 	t_pipex pipex;
+	int exit_status;
 	ft_bzero(&pipex, sizeof(pipex));
 
-	// TODO: Maybe use perror()
 	if (argc != 5)
 		return (put_str_error("Invalid number of arguments", NULL));
 	if (str_is_empty(argv[2]) || str_is_empty(argv[3]))
+	{
+		printf("string empty\n");
 		return (EXIT_FAILURE);
+	}
 	pipex.files[READ_END] = open(argv[1], O_RDONLY);
 	pipex.files[WRITE_END] = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex.files[READ_END] == -1)
 		return (put_str_error(strerror(errno), argv[1]));
 	if (pipex.files[WRITE_END] == -1)
 		return (put_str_error(strerror(errno), argv[argc - 1]));
-	int exit_status = do_pipex(&pipex, argv, envp);
+	exit_status = do_pipex(&pipex, argv, envp);
 	if (close(pipex.files[READ_END]) < 0 || close(pipex.files[WRITE_END]) < 0)
 		return (put_str_error(strerror(errno), "pipex->fd_input"));
 	leaks();
