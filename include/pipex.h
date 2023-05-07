@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 17:29:02 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/07 00:45:26 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,6 @@ typedef enum e_error
 	ERR_SHELL_FILE_NOT_FOUND,
 	ERR_COUNT,
 }	t_error;
-
-static const char *ERR_NAMES[] = {
-	"Malloc failure",
-	"Fork failure",
-	"Exec failure",
-	"Usage: pipex input_file \"cmd1 args\" \"cmd2 args\" output_file",
-	"command not found",
-	"No such file or directory",
-};
 
 // processes.c
 int execute_procs(t_pipex *pipex);

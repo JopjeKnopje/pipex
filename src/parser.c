@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 17:29:02 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/05 17:58:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,12 @@ char	**parse_args(char *argv[])
 	i = 2;
 	while (argv[i] && argv[i + 1])
 	{
-		// TODO Handle split on space
 		split = ft_split(argv[i], '"');
 		if (!split)
 		{
 			free_split(args_base);
 			return (NULL);
 		}
-		// TODO Handle strjoin_free_2d fail.
 		args_base = strjoin_free_2d(args_base, split);
 		if (!args_base)
 			break;

@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/19 16:10:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/05 17:12:07 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/07 00:46:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ int error_code_child_crash(int status)
 // TODO Free stuff from pipex struct
 void error_exit(t_pipex *pipex, t_error err)
 {
+	// huilen
+	static const char *ERR_NAMES[] = {
+		"Malloc failure",
+		"Fork failure",
+		"Exec failure",
+		"Usage: pipex input_file \"cmd1 args\" \"cmd2 args\" output_file",
+		"command not found",
+		"No such file or directory",
+	};
+
 	write(STDERR_FILENO, ERR_NAMES[err], ft_strlen(ERR_NAMES[err]));
 	write(STDERR_FILENO, "\n", 1);
 	exit(EXIT_FAILURE);
