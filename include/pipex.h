@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 11:05:51 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 15:43:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		cmds_get_runnable(t_cmd *cmd);
 
 // parser.c
 char	**parse_args(char *argv[]);
-int		str_is_empty(char *s);
+int		cmds_is_empty(char **argv, int count);
 
 // commands.c
 int 	create_commands(t_pipex *pipex, char *args[], char **envp);

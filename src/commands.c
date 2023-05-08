@@ -6,16 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 11:57:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 13:54:17 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "pipex.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/unistd.h>
-#include <unistd.h>
 
 static char *find_path(char *envp[])
 {
@@ -37,7 +32,6 @@ static char *find_path(char *envp[])
 static char **append_path_env(t_cmd *cmd, char *path)
 {
 	char	**paths;
-	char	*tmp;
 	unsigned int i;
 
 	if (!cmd || !path)
@@ -48,7 +42,11 @@ static char **append_path_env(t_cmd *cmd, char *path)
 	while (paths[i]) 
 	{
 		paths[i] = ft_strjoin_free(paths[i], "/");
+		if (!paths[i])
+			return (NULL);
 		paths[i] = ft_strjoin_free(paths[i], cmd->argv[0]);
+		if (!paths[i])
+			return (NULL);
 		i++;
 	}
 	cmd->cmd_paths = paths;

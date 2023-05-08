@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 01:45:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/04/19 10:52:37 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 13:51:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ char *sprint_split(char **split, const char *name)
 	while (split[i])
 	{
 		ft_strlcat(s, split[i], size);
-		int j = 0;
 		i++;
 		if (split[i])
 			ft_strlcat(s, delim, size);

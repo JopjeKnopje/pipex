@@ -6,22 +6,16 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 12:03:36 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 15:47:10 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "pipex.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
-#include <unistd.h>
 
-static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
+static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 {
-	char **args;
-	int exit_status;
+	char	**args;
+	int		exit_status;
 
 	exit_status = EXIT_FAILURE;
 	args = parse_args(argv);
@@ -44,23 +38,15 @@ static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 	return (exit_status);
 }
 
-void leaks()
+int	main(int argc, char *argv[], char *envp[])
 {
-	// system("leaks pipex");
-}
-
-int main(int argc, char *argv[], char *envp[])
-{
-	t_pipex pipex;
-	int exit_status;
-	ft_bzero(&pipex, sizeof(pipex));
-
-	atexit(&leaks);
+	t_pipex	pipex;
+	int		exit_status;
 
 	if (argc != 5)
 		(error_exit(&pipex, ERR_PIPEX_ARG_COUNT));
-	if (str_is_empty(argv[2]) || str_is_empty(argv[3]))
-		;
+
+	cmds_is_empty(argv, argc - 1);
 	pipex.files[READ_END] = open(argv[1], O_RDONLY);
 	pipex.files[WRITE_END] = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex.files[READ_END] == -1)
@@ -72,6 +58,5 @@ int main(int argc, char *argv[], char *envp[])
 		return (error_message(strerror(errno), argv[1]));
 	if (close(pipex.files[WRITE_END]) < 0)
 		return (error_message(strerror(errno), argv[argc - 1]));
-
 	return (exit_status);
 }

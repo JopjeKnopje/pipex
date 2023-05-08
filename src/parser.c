@@ -6,13 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 10:22:39 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 15:47:27 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "pipex.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 char	**parse_args(char *argv[])
@@ -35,25 +33,26 @@ char	**parse_args(char *argv[])
 		}
 		args_base = strjoin_free_2d(args_base, split);
 		if (!args_base)
-			break;
+			break ;
 		i++;
 	}
 	return (args_base);
 }
 
-int		str_is_empty(char *s)
+int cmds_is_empty(char **argv, int count)
 {
-	int i;
+	int	i;
 
-	i = 0;
-	if (!s)
-		return (1);
-	while (s[i]) 
+	i = 1;
+	while (i < count) 
 	{
-		if (s[i] != ' ')
-			return (0);
+		if (!ft_strisempty(argv[i]))
+		{
+			error_message(error_get_name(ERR_SHELL_CMD_NOT_FOUND), argv[i]);
+			exit(127);
+		}
+			return (i);
 		i++;
 	}
-	error_message((char *) error_get_name(ERR_SHELL_CMD_NOT_FOUND), s);
-	exit(127);
+	return (0);
 }
