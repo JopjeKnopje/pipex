@@ -6,31 +6,24 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 00:15:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 12:03:39 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 18:13:31 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
 
-
-void 	free_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd)
 {
 	free_split(cmd->argv);
 	free_split(cmd->cmd_paths);
 	free(cmd);
 }
 
-
-// TODO Find cmds len.
 void	free_cmds(t_cmd **cmds)
 {
 	int	i;
-	
+
 	i = 0;
-	// while (i < len)
 	while (cmds[i])
 	{
 		free_cmd(cmds[i]);
@@ -39,7 +32,6 @@ void	free_cmds(t_cmd **cmds)
 	free(cmds);
 }
 
-// Free a string array.
 void	free_split(char **s_split)
 {
 	int	i;
@@ -52,4 +44,3 @@ void	free_split(char **s_split)
 	}
 	free(s_split);
 }
-

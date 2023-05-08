@@ -6,10 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 15:47:10 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 18:20:31 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "pipex.h"
 
 static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
@@ -45,10 +46,11 @@ int	main(int argc, char *argv[], char *envp[])
 
 	if (argc != 5)
 		(error_exit(&pipex, ERR_PIPEX_ARG_COUNT));
-
-	cmds_is_empty(argv, argc - 1);
+	if (cmds_is_empty(argv, argc - 1))
+		return (127);
 	pipex.files[READ_END] = open(argv[1], O_RDONLY);
-	pipex.files[WRITE_END] = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	pipex.files[WRITE_END] = open(argv[argc - 1],
+			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex.files[READ_END] == -1)
 		return (error_message(strerror(errno), argv[1]));
 	if (pipex.files[WRITE_END] == -1)

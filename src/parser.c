@@ -6,12 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 15:47:27 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 18:11:44 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdlib.h>
 
 char	**parse_args(char *argv[])
 {
@@ -39,19 +38,18 @@ char	**parse_args(char *argv[])
 	return (args_base);
 }
 
-int cmds_is_empty(char **argv, int count)
+int	cmds_is_empty(char **argv, int count)
 {
 	int	i;
 
 	i = 1;
-	while (i < count) 
+	while (i < count)
 	{
 		if (!ft_strisempty(argv[i]))
 		{
 			error_message(error_get_name(ERR_SHELL_CMD_NOT_FOUND), argv[i]);
-			exit(127);
-		}
 			return (i);
+		}
 		i++;
 	}
 	return (0);

@@ -6,13 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 13:54:17 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 18:31:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char *find_path(char *envp[])
+static char	*find_path(char *envp[])
 {
 	int	i;
 
@@ -28,18 +28,18 @@ static char *find_path(char *envp[])
 	return (NULL);
 }
 
-// TODO Error handling / malloc protection
-static char **append_path_env(t_cmd *cmd, char *path)
+static char	**append_path_env(t_cmd *cmd, char *path)
 {
-	char	**paths;
-	unsigned int i;
+	unsigned int	i;
+	char			**paths;
 
 	if (!cmd || !path)
 		return (NULL);
-	
 	paths = ft_split(path, ':');
+	if (!paths)
+		return (NULL);
 	i = 0;
-	while (paths[i]) 
+	while (paths[i])
 	{
 		paths[i] = ft_strjoin_free(paths[i], "/");
 		if (!paths[i])
@@ -54,7 +54,7 @@ static char **append_path_env(t_cmd *cmd, char *path)
 }
 
 // TODO Memleaks
-static int append_path_file(t_cmd *cmd)
+static int	append_path_file(t_cmd *cmd)
 {
 	cmd->cmd_paths = ft_calloc(sizeof(char *), 2);
 	if (!cmd->cmd_paths)
@@ -65,16 +65,7 @@ static int append_path_file(t_cmd *cmd)
 	return (1);
 }
 
-static int cmd_is_file(t_cmd *cmd)
-{
-	char *s = ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0]));
-	if (s)
-		return (1);
-	return (0);
-}
-
-// TODO Exit func instead of return (NULL).
-static t_cmd 	*cmd_init(char *argv, char **envp)
+static t_cmd	*cmd_init(char *argv, char **envp)
 {
 	t_cmd	*cmd;
 
@@ -83,16 +74,13 @@ static t_cmd 	*cmd_init(char *argv, char **envp)
 		return (NULL);
 	cmd->argv = ft_split(argv, ' ');
 	if (!cmd->argv)
-	{
-		free(cmd);
-		return (NULL);
-	}
-	if (cmd_is_file(cmd))
+		return (free(cmd), NULL);
+	if (ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0])))
 	{
 		if (!append_path_file(cmd))
 			return (NULL);
 	}
-	else 
+	else
 	{
 		cmd->cmd_paths = append_path_env(cmd, find_path(envp));
 		if (!cmd->cmd_paths)
@@ -105,10 +93,10 @@ static t_cmd 	*cmd_init(char *argv, char **envp)
 	return (cmd);
 }
 
-int 	create_commands(t_pipex *pipex, char *args[], char **envp)
+int	create_commands(t_pipex *pipex, char *args[], char **envp)
 {
-	int 	i;
-	int 	count;
+	int	i;
+	int	count;
 
 	count = ft_str_arr_len(args);
 	pipex->cmds = ft_calloc(sizeof(t_cmd *), count + 1);
@@ -116,7 +104,7 @@ int 	create_commands(t_pipex *pipex, char *args[], char **envp)
 		return (EXIT_FAILURE);
 	pipex->envp = envp;
 	i = 0;
-	while (i < count) 
+	while (i < count)
 	{
 		pipex->cmds[i] = cmd_init(args[i], envp);
 		if (!pipex->cmds[i])

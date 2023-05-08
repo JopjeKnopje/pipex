@@ -6,31 +6,27 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/19 16:10:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/08 15:45:34 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/08 18:16:57 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "pipex.h"
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
-int error_code_child_crash(int status)
+int	error_code_child_crash(int status)
 {
-	int signal_status = WTERMSIG(status);
+	int	signal_status;
+
+	signal_status = WTERMSIG(status);
 	ft_putstr_fd(strsignal(signal_status), STDERR_FILENO);
 	if (WCOREDUMP(status))
-	{
 		ft_putstr_fd(" (core dumped)", STDERR_FILENO);
-	}
 	ft_putendl_fd("", STDERR_FILENO);
 	return (signal_status + SIGNAL_OFFSET);
 }
 
-const char *error_get_name(t_error err)
+const	char	*error_get_name(t_error err)
 {
-	static const char *ERR_NAMES[] = {
+	static const char	*err_names[] = {
 		"Malloc failure",
 		"Fork failure",
 		"Exec failure",
@@ -39,16 +35,14 @@ const char *error_get_name(t_error err)
 		"No such file or directory",
 	};
 
-	return ERR_NAMES[err];
+	return (err_names[err]);
 }
 
-void error_exit(t_pipex *pipex, t_error err)
+void	error_exit(t_pipex *pipex, t_error err)
 {
 	error_message(error_get_name(err), NULL);
 	if (err == ERR_PIPEX_EXEC_FAILURE || err == ERR_PIPEX_FORK_FAILURE)
-	{
 		free_cmds(pipex->cmds);
-	}
 	exit(EXIT_FAILURE);
 }
 
@@ -66,4 +60,3 @@ int	error_message(const char *s, char *cmd)
 	write(STDERR_FILENO, "\n", 1);
 	return (EXIT_FAILURE);
 }
-
