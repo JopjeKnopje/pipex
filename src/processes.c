@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/05 02:00:11 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/08 12:06:23 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 
 static int error_code_cmd_invalid(t_cmd *cmd)
 {
-	if (ft_strnstr(cmd->argv[0], "./", ft_strlen(cmd->argv[0])))
+	if (ft_strnstr(cmd->argv[0], "./", ft_strlen(cmd->argv[0])) || cmd->argv[0][0] == '/')
 	{
-		fprintf(stderr, "is file\n");
+		error_message(error_get_name(ERR_SHELL_FILE_NOT_FOUND), cmd->argv[0]);
+		return (126);
 	}
 	else {
-		fprintf(stderr, "is command\n");
+		error_message(error_get_name(ERR_SHELL_CMD_NOT_FOUND), cmd->argv[0]);
+		return (127);
 	}
-
-	return 0;
 }
 
 static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
@@ -68,15 +68,10 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 		runnable_index = cmds_get_runnable(pipex->cmds[cmd_index]);
 		if (runnable_index == -1)
 		{
-			error_code_cmd_invalid(pipex->cmds[cmd_index]);
-			// TODO Handle error.
-			fprintf(stderr,"command not runnable\n");
-			exit(0);
+			exit(error_code_cmd_invalid(pipex->cmds[cmd_index]));
 		}
 		if(execve(pipex->cmds[cmd_index]->cmd_paths[runnable_index], pipex->cmds[cmd_index]->argv, pipex->envp) == -1)
 		{
-			fprintf(stderr, "execve failed with [%s]\n", strerror(errno));
-			// TODO Handle error.
 			error_exit(pipex, ERR_PIPEX_EXEC_FAILURE);
 		}
 	}
@@ -111,7 +106,8 @@ int execute_procs(t_pipex *pipex)
 	while (i < count)
 	{
 		pid = child_create(pipex, i);
-		printf("pid %d\n", pid);
+		if (pid == -1)
+			break;
 		i++;
 	}
 	close(pipex->pipes[READ_END]);

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 18:14:14 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/08 12:03:36 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,32 @@
 static int do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 {
 	char **args;
+	int exit_status;
 
+	exit_status = EXIT_FAILURE;
 	args = parse_args(argv);
 	if (!args)
-		return (EXIT_FAILURE);
+		return (exit_status);
 	if (create_commands(pipex, args, envp) != EXIT_SUCCESS)
 	{
-		printf("cmds failed\n");
 		free_split(args);
-		return (EXIT_FAILURE);
+		error_message(error_get_name(ERR_PIPEX_ALLOCATION_FAILURE), NULL);
+		return (exit_status);
 	}
-	pipe(pipex->pipes);
-	int exit_status = execute_procs(pipex);
-
-	// print_cmds(pipex->cmds, len);
-	free_cmds(pipex->cmds);
 	free_split(args);
-
+	if (pipe(pipex->pipes) == -1)
+	{
+		error_message(strerror(errno), NULL);
+		free_cmds(pipex->cmds);
+	}
+	exit_status = execute_procs(pipex);
+	free_cmds(pipex->cmds);
 	return (exit_status);
+}
+
+void leaks()
+{
+	// system("leaks pipex");
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -46,6 +54,8 @@ int main(int argc, char *argv[], char *envp[])
 	t_pipex pipex;
 	int exit_status;
 	ft_bzero(&pipex, sizeof(pipex));
+
+	atexit(&leaks);
 
 	if (argc != 5)
 		(error_exit(&pipex, ERR_PIPEX_ARG_COUNT));

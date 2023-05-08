@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/19 16:10:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/07 00:46:03 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/08 12:07:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ int error_code_child_crash(int status)
 	return (signal_status + SIGNAL_OFFSET);
 }
 
-// TODO Free stuff from pipex struct
-void error_exit(t_pipex *pipex, t_error err)
+const char *error_get_name(t_error err)
 {
-	// huilen
 	static const char *ERR_NAMES[] = {
 		"Malloc failure",
 		"Fork failure",
@@ -41,18 +39,26 @@ void error_exit(t_pipex *pipex, t_error err)
 		"No such file or directory",
 	};
 
-	write(STDERR_FILENO, ERR_NAMES[err], ft_strlen(ERR_NAMES[err]));
-	write(STDERR_FILENO, "\n", 1);
+	return ERR_NAMES[err];
+}
+
+void error_exit(t_pipex *pipex, t_error err)
+{
+	error_message(error_get_name(err), NULL);
+	if (err == ERR_PIPEX_EXEC_FAILURE || err == ERR_PIPEX_FORK_FAILURE)
+	{
+		free_cmds(pipex->cmds);
+	}
 	exit(EXIT_FAILURE);
 }
 
-int	error_message(char *s, char *cmd)
+int	error_message(const char *s, char *cmd)
 {
 	if (!s)
 		return (2);
 	if (cmd)
 	{
-		write(STDERR_FILENO, "-bash: ", 7);
+		write(STDERR_FILENO, "bash: ", 7);
 		write(STDERR_FILENO, cmd, ft_strlen(cmd));
 		write(STDERR_FILENO, ": ", 2);
 	}

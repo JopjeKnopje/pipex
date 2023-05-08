@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 00:15:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/05 02:09:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/08 12:03:39 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_cmds(t_cmd **cmds)
 	}
 	free(cmds);
 }
-  
+
 // Free a string array.
 void	free_split(char **s_split)
 {

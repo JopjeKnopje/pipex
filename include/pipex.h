@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/07 00:45:26 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/08 11:05:51 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int 	create_commands(t_pipex *pipex, char *args[], char **envp);
 // error.c
 int 	error_code_child_crash(int status);
 void 	error_exit(t_pipex *pipex, t_error err);
-int		error_message(char *s, char *arg);
+int	error_message(const char *s, char *cmd);
+const char *error_get_name(t_error err);
 
 // meuk.c
 void	print_split(char **split);
