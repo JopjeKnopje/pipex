@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 18:11:44 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/10 08:38:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <stdio.h>
 
 char	**parse_args(char *argv[])
 {
@@ -42,10 +43,10 @@ int	cmds_is_empty(char **argv, int count)
 {
 	int	i;
 
-	i = 1;
+	i = 2;
 	while (i < count)
 	{
-		if (!ft_strisempty(argv[i]))
+		if (ft_strisempty(argv[i]))
 		{
 			error_message(error_get_name(ERR_SHELL_CMD_NOT_FOUND), argv[i]);
 			return (i);
