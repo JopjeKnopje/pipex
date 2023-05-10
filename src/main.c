@@ -1,17 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   main.c                                            :+:    :+:             */
+/*   main.c                                             :+:    :+:            */
 /*                                                    +:+                     */
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:26:15 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/10 16:11:43 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/10 20:02:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "libft.h"
 #include "pipex.h"
 
 static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
@@ -29,7 +27,7 @@ static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 		free_split(args);
 		return (exit_status);
 	}
-	print_cmds(pipex->cmds, 2);
+	// print_cmds(pipex->cmds, 2);
 	free_split(args);
 	if (pipe(pipex->pipes) == -1)
 	{

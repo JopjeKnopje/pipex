@@ -1,19 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   commands.c                                        :+:    :+:             */
+/*   commands.c                                         :+:    :+:            */
 /*                                                    +:+                     */
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/10 18:11:08 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/10 20:28:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "pipex.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 static char	*find_path(char *envp[])
 {
@@ -78,8 +76,8 @@ static t_cmd	*cmd_init(char *argv, char **envp)
 	cmd = ft_calloc(sizeof(t_cmd), 1);
 	if (!cmd)
 		return (NULL);
-	cmd->argv = ft_split(argv, ' ');
 	path = find_path(envp);
+	cmd->argv = ft_split(argv, ' ');
 	if (!cmd->argv)
 		return (free(cmd), NULL);
 	if (ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0])) || !path)

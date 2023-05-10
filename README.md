@@ -28,7 +28,6 @@ and takes a string as message pipex ptr and boolean
 when running /usr/bin/head -1
 
 
-Maybe handle "cmd1 arg 'arg2 arg3'"
 
 ## Segfault
 
