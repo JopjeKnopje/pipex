@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 18:31:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/10 08:49:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ int	create_commands(t_pipex *pipex, char *args[], char **envp)
 		if (!pipex->cmds[i])
 		{
 			free_cmds(pipex->cmds);
-			return (EXIT_FAILURE);
+			return (1);
 		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/27 22:06:24 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/10 08:36:55 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/10 08:52:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 	args = parse_args(argv);
 	if (!args)
 		return (exit_status);
-	if (create_commands(pipex, args, envp) != EXIT_SUCCESS)
+	if (!create_commands(pipex, args, envp))
 	{
-		free_split(args);
 		error_message(error_get_name(ERR_PIPEX_ALLOCATION_FAILURE), NULL);
+		free_split(args);
 		return (exit_status);
 	}
 	free_split(args);
@@ -33,6 +33,7 @@ static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 	{
 		error_message(strerror(errno), NULL);
 		free_cmds(pipex->cmds);
+		return (exit_status);
 	}
 	exit_status = execute_procs(pipex);
 	free_cmds(pipex->cmds);
@@ -45,7 +46,7 @@ int	main(int argc, char *argv[], char *envp[])
 	int		exit_status;
 
 	if (argc != 5)
-		(error_exit(&pipex, ERR_PIPEX_ARG_COUNT));
+		error_exit(&pipex, ERR_PIPEX_ARG_COUNT);
 	if (cmds_is_empty(argv, argc - 1))
 		return (127);
 	pipex.files[READ_END] = open(argv[1], O_RDONLY);
