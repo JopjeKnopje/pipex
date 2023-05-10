@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/08 14:24:24 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/10 09:07:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,20 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 	if (pid == 0)
 	{
 		if (redirect_fd(pipex, cmd_index) == EXIT_FAILURE)
+		{
+			free_cmds(pipex->cmds);
+			error_message(strerror(errno), NULL);
 			exit(EXIT_FAILURE);
+		}
 		runnable_index = cmds_get_runnable(pipex->cmds[cmd_index]);
 		if (runnable_index == -1)
 		{
+			free_cmds(pipex->cmds);
 			exit(error_code_cmd_invalid(pipex->cmds[cmd_index]));
 		}
 		if (execve(pipex->cmds[cmd_index]->cmd_paths[runnable_index],
 				pipex->cmds[cmd_index]->argv, pipex->envp) == -1)
-		{
 			error_exit(pipex, ERR_PIPEX_EXEC_FAILURE);
-		}
 	}
 	return (pid);
 }

@@ -21,7 +21,8 @@ but if we segfault before the execve in the child. our entire program segvs (lag
 [ ] Error handleing in main is done
 
 ## Error handling
-
+TODO Exit function that checks if its a bash error, or pipex error using a boolean,
+and takes a string as message pipex ptr and boolean
 
 
 ## Segfault
