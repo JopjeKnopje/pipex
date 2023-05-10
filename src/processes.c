@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/10 11:27:08 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/10 20:42:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,19 @@ static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 	return (0);
 }
 
-static int	error_code_cmd_invalid(t_cmd *cmd)
+static int	error_code_cmd_invalid(t_pipex *pipex, t_cmd *cmd)
 {
 	if (ft_strnstr(cmd->argv[0], "./", ft_strlen(cmd->argv[0]))
 		|| cmd->argv[0][0] == '/')
 	{
 		error_message(error_get_name(ERR_SHELL_FILE_NOT_FOUND), cmd->argv[0]);
+		free_cmds(pipex->cmds);
 		return (126);
 	}
 	else
 	{
 		error_message(error_get_name(ERR_SHELL_CMD_NOT_FOUND), cmd->argv[0]);
+		free_cmds(pipex->cmds);
 		return (127);
 	}
 }
@@ -60,16 +62,11 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 		if (redirect_fd(pipex, cmd_index) == EXIT_FAILURE)
 		{
 			free_cmds(pipex->cmds);
-			error_message(strerror(errno), NULL);
-			exit(EXIT_FAILURE);
+			exit(error_message(strerror(errno), NULL));
 		}
 		runnable_index = cmds_get_runnable(pipex->cmds[cmd_index]);
 		if (runnable_index == -1)
-		{
-			runnable_index = error_code_cmd_invalid(pipex->cmds[cmd_index]);
-			free_cmds(pipex->cmds);
-			exit(runnable_index);
-		}
+			exit(error_code_cmd_invalid(pipex, pipex->cmds[cmd_index]));
 		if (execve(pipex->cmds[cmd_index]->cmd_paths[runnable_index],
 				pipex->cmds[cmd_index]->argv, pipex->envp) == -1)
 			error_exit(pipex, ERR_PIPEX_EXEC_FAILURE);

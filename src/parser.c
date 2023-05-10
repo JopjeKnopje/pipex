@@ -6,12 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/10 08:38:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/10 20:42:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
 
 char	**parse_args(char *argv[])
 {

@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/10 20:28:59 by joppe         ########   odam.nl          #
+#    Updated: 2023/05/10 20:34:42 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,9 @@ run: all
 	@# ./$(NAME) input_file.txt "./test_exec" cat output_file.txt
 	./$(NAME) input_file.txt "test_exec 1" "/home/joppe/Stuff/Programming/Codam/pipex/test_exec 1" output_file.txt
 
+
+norm:
+	@norminette $(SRC_DIR)/main.c $(SRC_DIR)/error.c $(SRC_DIR)/free.c $(SRC_DIR)/parser.c $(SRC_DIR)/processes.c $(SRC_DIR)/utils.c $(HEADER_DIR)/*
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb
