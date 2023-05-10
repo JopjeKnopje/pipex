@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/08 18:20:33 by joppe         ########   odam.nl          #
+#    Updated: 2023/05/10 11:52:49 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME = pipex
 
 LIBFT = libft/build/libft.a
 
-CFLAGS = -Wall -Wextra -Werror
-# CFLAGS += -g -fsanitize=address
+# CFLAGS = -Wall -Wextra -Werror
+CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 
 
@@ -89,7 +89,7 @@ run: all
 	@# ./$(NAME) input_file.txt "/bin/ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "./test_exec" cat output_file.txt
-	./$(NAME) input_file.txt "./test_exec 1" "./test_exec 1" output_file.txt
+	@# ./$(NAME) input_file.txt "./test_exec 1" "./test_exec 1" output_file.txt
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb

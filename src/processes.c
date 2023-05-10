@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/10 09:07:12 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/10 11:27:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 		runnable_index = cmds_get_runnable(pipex->cmds[cmd_index]);
 		if (runnable_index == -1)
 		{
+			runnable_index = error_code_cmd_invalid(pipex->cmds[cmd_index]);
 			free_cmds(pipex->cmds);
-			exit(error_code_cmd_invalid(pipex->cmds[cmd_index]));
+			exit(runnable_index);
 		}
 		if (execve(pipex->cmds[cmd_index]->cmd_paths[runnable_index],
 				pipex->cmds[cmd_index]->argv, pipex->envp) == -1)

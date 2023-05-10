@@ -6,13 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 00:15:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/10 08:59:37 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/10 10:23:24 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	free_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd)
 {
 	free_split(cmd->argv);
 	free_split(cmd->cmd_paths);

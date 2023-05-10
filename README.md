@@ -24,6 +24,11 @@ but if we segfault before the execve in the child. our entire program segvs (lag
 TODO Exit function that checks if its a bash error, or pipex error using a boolean,
 and takes a string as message pipex ptr and boolean
 
+## Split on abolute path
+when running /usr/bin/head -1
+
+
+Maybe handle "cmd1 arg 'arg2 arg3'"
 
 ## Segfault
 

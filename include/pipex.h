@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/08 18:35:14 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/10 10:23:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int				execute_procs(t_pipex *pipex);
 
 // free.c
 void			free_cmds(t_cmd **cmds);
+void			free_cmd(t_cmd *cmd);
 void			free_split(char **s_split);
 
 // utils.c

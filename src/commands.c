@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   commands.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: joppe <jboeve@student.codam.nl>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/03/21 02:01:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/10 08:49:01 by joppe         ########   odam.nl         */
+/*                                                       ::::::::             */
+/*   commands.c                                        :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: jboeve <marvin@42.fr>                       +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
+/*   Updated: 2023/05/10 18:11:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "pipex.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static char	*find_path(char *envp[])
 {
@@ -53,7 +56,6 @@ static char	**append_path_env(t_cmd *cmd, char *path)
 	return (paths);
 }
 
-// TODO Memleaks
 static int	append_path_file(t_cmd *cmd)
 {
 	cmd->cmd_paths = ft_calloc(sizeof(char *), 2);
@@ -61,28 +63,33 @@ static int	append_path_file(t_cmd *cmd)
 		return (0);
 	cmd->cmd_paths[0] = ft_strdup(cmd->argv[0]);
 	if (!cmd->cmd_paths[0])
+	{
+		free_split(cmd->cmd_paths);
 		return (0);
+	}
 	return (1);
 }
 
 static t_cmd	*cmd_init(char *argv, char **envp)
 {
 	t_cmd	*cmd;
+	char	*path;
 
 	cmd = ft_calloc(sizeof(t_cmd), 1);
 	if (!cmd)
 		return (NULL);
 	cmd->argv = ft_split(argv, ' ');
+	path = find_path(envp);
 	if (!cmd->argv)
 		return (free(cmd), NULL);
-	if (ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0])))
+	if (ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0])) || !path)
 	{
 		if (!append_path_file(cmd))
 			return (NULL);
 	}
 	else
 	{
-		cmd->cmd_paths = append_path_env(cmd, find_path(envp));
+		cmd->cmd_paths = append_path_env(cmd, path);
 		if (!cmd->cmd_paths)
 		{
 			free_split(cmd->argv);
@@ -109,8 +116,9 @@ int	create_commands(t_pipex *pipex, char *args[], char **envp)
 		pipex->cmds[i] = cmd_init(args[i], envp);
 		if (!pipex->cmds[i])
 		{
+			printf("dasdasd\n");
 			free_cmds(pipex->cmds);
-			return (1);
+			return (0);
 		}
 		i++;
 	}

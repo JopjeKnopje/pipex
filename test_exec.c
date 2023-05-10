@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   test_exec.c                                        :+:    :+:            */
+/*   test_exec.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 20:19:08 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/03 17:06:12 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/10 18:01:13 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int main(int argc, char *argv[])
 {
 	int exit_status = 0;
+	printf("argv: [%s]\n", argv[0]);
 	if (ft_strnstr(argv[1], "seg", strlen("seg")))
 	{
 		printf("forcing segfault\n");
