@@ -6,43 +6,51 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:26:15 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/11 11:35:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/11 12:06:31 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 {
 	char	**args;
 	int		exit_status;
 
-	exit_status = EXIT_FAILURE;
 	args = parse_args(argv);
 	if (!args)
-		return (exit_status);
+		return (EXIT_FAILURE);
 	if (!create_commands(pipex, args, envp))
 	{
 		error_message(error_get_name(ERR_PIPEX_ALLOCATION_FAILURE), NULL);
 		free_split(args);
-		return (exit_status);
+		return (EXIT_FAILURE);
 	}
 	free_split(args);
 	if (pipe(pipex->pipes) == -1)
 	{
 		error_message(strerror(errno), NULL);
 		free_cmds(pipex->cmds);
-		return (exit_status);
+		return (EXIT_FAILURE);
 	}
 	exit_status = execute_procs(pipex);
 	free_cmds(pipex->cmds);
 	return (exit_status);
 }
 
+void leak()
+{
+	system("leaks pipex");
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	pipex;
 	int		exit_status;
+
+	atexit(leak);
 
 	if (argc != 5)
 		error_exit(&pipex, ERR_PIPEX_ARG_COUNT);

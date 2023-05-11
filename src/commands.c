@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/11 11:26:15 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/11 12:13:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static t_cmd	*cmd_init(char *argv, char **envp)
 	if (ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0]))
 		|| !find_path(envp))
 	{
+		// Leak?
 		if (!append_path_file(cmd))
 			return (NULL);
 	}
@@ -98,13 +99,13 @@ static t_cmd	*cmd_init(char *argv, char **envp)
 
 int	create_commands(t_pipex *pipex, char *args[], char **envp)
 {
-	int	i;
-	int	count;
+	unsigned int	i;
+	unsigned int	count;
 
 	count = ft_str_arr_len(args);
 	pipex->cmds = ft_calloc(sizeof(t_cmd *), count + 1);
 	if (!pipex->cmds)
-		return (EXIT_FAILURE);
+		return (0);
 	pipex->envp = envp;
 	i = 0;
 	while (i < count)

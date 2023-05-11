@@ -6,7 +6,7 @@
 #    By: jboeve <marvin@42.fr>                       +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/05/11 11:36:05 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/11 11:40:53 by jboeve        ########   odam.nl          #
+#    Updated: 2023/05/11 12:10:57 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ run: all
 
 
 norm:
-	@norminette $(SRC_DIR)/main.c $(SRC_DIR)/error.c $(SRC_DIR)/free.c $(SRC_DIR)/parser.c $(SRC_DIR)/processes.c $(SRC_DIR)/utils.c $(HEADER_DIR)/*
+	@norminette $(SRC_DIR)/main.c $(SRC_DIR)/error.c $(SRC_DIR)/free.c $(SRC_DIR)/parser.c $(SRC_DIR)/processes.c $(SRC_DIR)/utils.c $(SRC_DIR)/commands.c $(HEADER_DIR)/*
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb

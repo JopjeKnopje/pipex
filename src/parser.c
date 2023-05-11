@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
+/*   parser.c                                          :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/18 23:44:32 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/10 20:42:49 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/11 11:53:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	**parse_args(char *argv[])
 			free_split(args_base);
 			return (NULL);
 		}
+
 		args_base = strjoin_free_2d(args_base, split);
 		if (!args_base)
 			break ;
