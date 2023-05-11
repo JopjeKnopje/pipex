@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/11 20:39:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/11 20:55:44 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static char	**append_path_env(t_cmd *cmd, char *path)
 	unsigned int	i;
 	char			**paths;
 
+	static int counter = 0;
+
 	if (!cmd || !path)
 		return (NULL);
 	paths = ft_split(path, ':');
@@ -43,9 +45,17 @@ static char	**append_path_env(t_cmd *cmd, char *path)
 	i = 0;
 	while (paths[i])
 	{
-		paths[i] = ft_strjoin_free(paths[i], "/");
+		// TODO Fix these leaks
+		if (counter)
+			paths[i] = NULL;
+		else
+			paths[i] = ft_strjoin_free(paths[i], "/");
+		counter++;
 		if (!paths[i])
+		{
+			free_split(paths);
 			return (NULL);
+		}
 		paths[i] = ft_strjoin_free(paths[i], cmd->argv[0]);
 		if (!paths[i])
 			return (NULL);
@@ -94,6 +104,7 @@ static t_cmd	*cmd_init(char *argv, char **envp)
 		cmd->cmd_paths = append_path_env(cmd, find_path(envp));
 		if (!cmd->cmd_paths)
 		{
+			printf("append_path_env failed\n");
 			free_split(cmd->argv);
 			free(cmd);
 			return (NULL);

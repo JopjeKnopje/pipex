@@ -6,7 +6,7 @@
 #    By: jboeve <marvin@42.fr>                       +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/05/11 11:36:05 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/11 20:30:39 by joppe         ########   odam.nl          #
+#    Updated: 2023/05/11 20:53:11 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,7 @@ run: all
 	@# ./$(NAME) input_file.txt "/bin/ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "./test_exec" cat output_file.txt
-	./$(NAME) input_file.txt "./test_exec 1" "/home/joppe/Stuff/Programming/Codam/pipex/test_exec 1" output_file.txt
+	./$(NAME) input_file.txt "ls" "ls" output_file.txt
 
 
 norm:
