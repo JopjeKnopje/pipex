@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   commands.c                                         :+:    :+:            */
+/*   commands.c                                        :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/10 20:28:53 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/11 11:26:15 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "pipex.h"
 
-static char	*find_path(char *envp[])
+char	*find_path(char *envp[])
 {
 	int	i;
 
@@ -71,23 +70,22 @@ static int	append_path_file(t_cmd *cmd)
 static t_cmd	*cmd_init(char *argv, char **envp)
 {
 	t_cmd	*cmd;
-	char	*path;
 
 	cmd = ft_calloc(sizeof(t_cmd), 1);
 	if (!cmd)
 		return (NULL);
-	path = find_path(envp);
 	cmd->argv = ft_split(argv, ' ');
 	if (!cmd->argv)
 		return (free(cmd), NULL);
-	if (ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0])) || !path)
+	if (ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0]))
+		|| !find_path(envp))
 	{
 		if (!append_path_file(cmd))
 			return (NULL);
 	}
 	else
 	{
-		cmd->cmd_paths = append_path_env(cmd, path);
+		cmd->cmd_paths = append_path_env(cmd, find_path(envp));
 		if (!cmd->cmd_paths)
 		{
 			free_split(cmd->argv);
@@ -114,7 +112,6 @@ int	create_commands(t_pipex *pipex, char *args[], char **envp)
 		pipex->cmds[i] = cmd_init(args[i], envp);
 		if (!pipex->cmds[i])
 		{
-			printf("dasdasd\n");
 			free_cmds(pipex->cmds);
 			return (0);
 		}

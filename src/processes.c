@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   processes.c                                        :+:    :+:            */
+/*   processes.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/10 20:42:23 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/11 11:41:16 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 static int	error_code_cmd_invalid(t_pipex *pipex, t_cmd *cmd)
 {
 	if (ft_strnstr(cmd->argv[0], "./", ft_strlen(cmd->argv[0]))
-		|| cmd->argv[0][0] == '/')
+		|| cmd->argv[0][0] == '/' || !find_path(pipex->envp))
 	{
 		error_message(error_get_name(ERR_SHELL_FILE_NOT_FOUND), cmd->argv[0]);
 		free_cmds(pipex->cmds);

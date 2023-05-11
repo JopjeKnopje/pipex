@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   error.c                                            :+:    :+:            */
+/*   error.c                                           :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/19 16:10:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/08 18:16:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/11 11:02:22 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	error_code_child_crash(int status)
 	int	signal_status;
 
 	signal_status = WTERMSIG(status);
-	ft_putstr_fd(strsignal(signal_status), STDERR_FILENO);
 	if (WCOREDUMP(status))
 		ft_putstr_fd(" (core dumped)", STDERR_FILENO);
 	ft_putendl_fd("", STDERR_FILENO);

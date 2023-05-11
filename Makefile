@@ -1,21 +1,22 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: jboeve <jboeve@student.codam.nl>             +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/10 20:34:42 by joppe         ########   odam.nl          #
+#                                                        ::::::::              #
+#    Makefile                                          :+:    :+:              #
+#                                                     +:+                      #
+#    By: jboeve <marvin@42.fr>                       +#+                       #
+#                                                   +#+                        #
+#    Created: 2023/05/11 11:36:05 by jboeve        #+#    #+#                  #
+#    Updated: 2023/05/11 11:40:53 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = pipex
 
 LIBFT = libft/build/libft.a
 
-# CFLAGS = -Wall -Wextra -Werror
-CFLAGS += -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
+# CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 
 
@@ -27,8 +28,7 @@ SRCS = main.c \
 	   commands.c \
 	   free.c \
 	   error.c \
-	   processes.c \
-	   meuk.c
+	   processes.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 

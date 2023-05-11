@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.h                                            :+:    :+:            */
+/*   pipex.h                                           :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/10 10:23:34 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/11 11:40:36 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define PIPEX_H
 
 # include "libft.h"
-# include <stdio.h>
-# include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <string.h>
@@ -69,16 +67,12 @@ int				cmds_is_empty(char **argv, int count);
 
 // commands.c
 int				create_commands(t_pipex *pipex, char *args[], char **envp);
+char			*find_path(char *envp[]);
 
 // error.c
 int				error_code_child_crash(int status);
 void			error_exit(t_pipex *pipex, t_error err);
 int				error_message(const char *s, char *cmd);
 const char		*error_get_name(t_error err);
-
-// meuk.c
-void			print_split(char **split);
-void			print_cmds(t_cmd **cmds, int len);
-char			*sprint_split(char **split, const char *name);
 
 #endif
