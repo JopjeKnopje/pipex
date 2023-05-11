@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/11 12:13:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/11 18:52:05 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static t_cmd	*cmd_init(char *argv, char **envp)
 	if (ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0]))
 		|| !find_path(envp))
 	{
-		// Leak?
+		// TODO Leak?
 		if (!append_path_file(cmd))
 			return (NULL);
 	}

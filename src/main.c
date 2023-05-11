@@ -6,13 +6,14 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:26:15 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/11 12:06:31 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/11 19:02:06 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 {
