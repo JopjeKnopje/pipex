@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                        ::::::::              #
-#    Makefile                                          :+:    :+:              #
+#    Makefile                                           :+:    :+:             #
 #                                                     +:+                      #
 #    By: jboeve <marvin@42.fr>                       +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/05/11 11:36:05 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/11 19:02:22 by jboeve        ########   odam.nl          #
+#    Updated: 2023/05/11 20:30:39 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = pipex
 LIBFT = libft/build/libft.a
 
 CFLAGS = -Wall -Wextra -Werror
-# CFLAGS += -g -fsanitize=address
+CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 
 

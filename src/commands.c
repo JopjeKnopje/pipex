@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   commands.c                                        :+:    :+:             */
+/*   commands.c                                         :+:    :+:            */
 /*                                                    +:+                     */
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/11 18:52:05 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/11 20:39:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 char	*find_path(char *envp[])
 {
@@ -57,11 +59,14 @@ static int	append_path_file(t_cmd *cmd)
 {
 	cmd->cmd_paths = ft_calloc(sizeof(char *), 2);
 	if (!cmd->cmd_paths)
+	{
+		free(cmd);
 		return (0);
+	}
 	cmd->cmd_paths[0] = ft_strdup(cmd->argv[0]);
 	if (!cmd->cmd_paths[0])
 	{
-		free_split(cmd->cmd_paths);
+		free_cmd(cmd);
 		return (0);
 	}
 	return (1);
@@ -80,12 +85,12 @@ static t_cmd	*cmd_init(char *argv, char **envp)
 	if (ft_strnstr(cmd->argv[0], "/", ft_strlen(cmd->argv[0]))
 		|| !find_path(envp))
 	{
-		// TODO Leak?
 		if (!append_path_file(cmd))
 			return (NULL);
 	}
 	else
 	{
+		// TODO Check leaks
 		cmd->cmd_paths = append_path_env(cmd, find_path(envp));
 		if (!cmd->cmd_paths)
 		{

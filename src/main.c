@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   main.c                                            :+:    :+:             */
+/*   main.c                                             :+:    :+:            */
 /*                                                    +:+                     */
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:26:15 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/11 19:02:06 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/11 20:19:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 {
@@ -41,17 +38,10 @@ static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 	return (exit_status);
 }
 
-void leak()
-{
-	system("leaks pipex");
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipex	pipex;
 	int		exit_status;
-
-	atexit(leak);
 
 	if (argc != 5)
 		error_exit(&pipex, ERR_PIPEX_ARG_COUNT);
