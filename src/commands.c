@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/11 20:55:44 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/13 10:53:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static char	**append_path_env(t_cmd *cmd, char *path)
 			return (NULL);
 		i++;
 	}
-	cmd->cmd_paths = paths;
 	return (paths);
 }
 
