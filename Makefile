@@ -6,7 +6,7 @@
 #    By: jboeve <marvin@42.fr>                       +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/05/11 11:36:05 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/11 20:53:11 by joppe         ########   odam.nl          #
+#    Updated: 2023/05/15 09:03:51 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = pipex
 
 LIBFT = libft/build/libft.a
 
-CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror
 CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 

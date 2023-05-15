@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/13 10:53:53 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/15 09:05:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ char	*find_path(char *envp[])
 	return (NULL);
 }
 
+static void print_paths(char **paths, unsigned int len)
+{
+	unsigned int i = 0;
+	while (i < len) 
+	{
+		printf("paths[%d]: %s\n", i, paths[i]);
+		i++;
+	}
+}
+
 static char	**append_path_env(t_cmd *cmd, char *path)
 {
 	unsigned int	i;
@@ -42,12 +52,16 @@ static char	**append_path_env(t_cmd *cmd, char *path)
 	paths = ft_split(path, ':');
 	if (!paths)
 		return (NULL);
+	print_paths(paths, 13);
 	i = 0;
 	while (paths[i])
 	{
 		// TODO Fix these leaks
-		if (counter)
+		if (counter >= 3)
+		{ 
 			paths[i] = NULL;
+			print_paths(paths, 13);
+		}
 		else
 			paths[i] = ft_strjoin_free(paths[i], "/");
 		counter++;
