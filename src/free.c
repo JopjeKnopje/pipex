@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 00:15:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/15 09:34:20 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/15 09:38:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void	free_split(char **s_split)
 	free(s_split);
 }
 
-void	free_split_test(char **s_split, int len)
+void	free_split_test(char **s_split, int skip)
 {
 	int	i;
 
 	i = 0;
-	while (i < len)
+	while (s_split[i] || i <= skip)
 	{
-		if (s_split[i])
+		if (i != skip)
 		{ 
 			printf("freed %d\n", i);
 			free(s_split[i]);

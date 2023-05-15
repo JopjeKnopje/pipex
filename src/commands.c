@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/15 09:31:27 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/15 09:38:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static char	**append_path_env(t_cmd *cmd, char *path)
 		counter++;
 		if (!paths[i])
 		{
-			// prob gotta free base ptr
 			free_split_test(paths, i);
 			return (NULL);
 		}
