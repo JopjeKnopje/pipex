@@ -6,11 +6,13 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:26:15 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/15 11:00:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/15 16:10:31 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "pipex.h"
+#include <stdio.h>
 
 static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 {
@@ -26,6 +28,7 @@ static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 		free_split(args);
 		return (EXIT_FAILURE);
 	}
+	// print_cmds(pipex->cmds, 2);
 	free_split(args);
 	if (pipe(pipex->pipes) == -1)
 	{
@@ -47,17 +50,8 @@ int	main(int argc, char *argv[], char *envp[])
 		error_exit(&pipex, ERR_PIPEX_ARG_COUNT);
 	if (cmds_is_empty(argv, argc - 1))
 		return (127);
-	pipex.files[READ_END] = open(argv[1], O_RDONLY);
-	pipex.files[WRITE_END] = open(argv[argc - 1],
-			O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (pipex.files[READ_END] == -1)
-		return (error_message(strerror(errno), argv[1]));
-	if (pipex.files[WRITE_END] == -1)
-		return (error_message(strerror(errno), argv[argc - 1]));
+	pipex.fnames[READ_END] = argv[1];
+	pipex.fnames[WRITE_END] = argv[argc - 1];
 	exit_status = do_pipex(&pipex, argv, envp);
-	if (close(pipex.files[READ_END]) < 0)
-		return (error_message(strerror(errno), argv[1]));
-	if (close(pipex.files[WRITE_END]) < 0)
-		return (error_message(strerror(errno), argv[argc - 1]));
 	return (exit_status);
 }

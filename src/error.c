@@ -6,11 +6,14 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/19 16:10:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/11 11:02:22 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/15 14:39:04 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
 
 int	error_code_child_crash(int status)
 {
@@ -43,6 +46,14 @@ void	error_exit(t_pipex *pipex, t_error err)
 	if (err == ERR_PIPEX_EXEC_FAILURE || err == ERR_PIPEX_FORK_FAILURE)
 		free_cmds(pipex->cmds);
 	exit(EXIT_FAILURE);
+}
+
+int	error_message_errno(char *cmd)
+{
+	error_message(strerror(errno), cmd);
+	if (errno == 2 || errno == 13)
+		return (0);
+	return (1);
 }
 
 int	error_message(const char *s, char *cmd)

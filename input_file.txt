@@ -1,12 +1,1 @@
-compile_commands.json
-include
-input_file.txt
-libft
-Makefile
-obj
-output_file.txt
-pipex
-README.md
-src
-test_exec
-test_exec.c
+123

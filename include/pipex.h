@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/15 11:00:51 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/15 15:55:54 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_pipex
 	int		files[2];
 	int		pipes[2];
 	t_cmd	**cmds;
+	char	*fnames[2];
 	char	**envp;
 }	t_pipex;
 
@@ -75,5 +76,9 @@ int				error_code_child_crash(int status);
 void			error_exit(t_pipex *pipex, t_error err);
 int				error_message(const char *s, char *cmd);
 const char		*error_get_name(t_error err);
+int				error_message_errno(char *cmd);
+
+// meuk.c
+void print_cmds(t_cmd **cmds, int len);
 
 #endif

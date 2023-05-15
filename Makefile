@@ -6,7 +6,7 @@
 #    By: jboeve <marvin@42.fr>                       +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/05/11 11:36:05 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/15 10:59:13 by jboeve        ########   odam.nl          #
+#    Updated: 2023/05/15 16:31:02 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = pipex
 
 LIBFT = libft/build/libft.a
 
-# CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 # CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 
@@ -28,7 +28,8 @@ SRCS = main.c \
 	   commands.c \
 	   free.c \
 	   error.c \
-	   processes.c
+	   processes.c \
+	   meuk.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
@@ -89,7 +90,7 @@ run: all
 	@# ./$(NAME) input_file.txt "/bin/ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "ls -la" cat output_file.txt
 	@# ./$(NAME) input_file.txt "./test_exec" cat output_file.txt
-	./$(NAME) input_file.txt "ls" "ls" output_file.txt
+	./$(NAME) file_doenstexist.txt "ls" "ls" output_file.txt
 
 
 norm:

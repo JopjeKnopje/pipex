@@ -27,6 +27,12 @@ and takes a string as message pipex ptr and boolean
 ## Split on abolute path
 when running /usr/bin/head -1
 
+## Open file in child
+
+
+## File errors
+inputfile permission denied should return 1
+inputfile file not found should return 0
 
 
 ## Segfault
