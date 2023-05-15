@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                        ::::::::              #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+                      #
 #    By: jboeve <marvin@42.fr>                       +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/05/11 11:36:05 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/15 09:03:51 by joppe         ########   odam.nl          #
+#    Updated: 2023/05/15 10:59:13 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = pipex
 LIBFT = libft/build/libft.a
 
 # CFLAGS = -Wall -Wextra -Werror
-CFLAGS += -g -fsanitize=address
+# CFLAGS += -g -fsanitize=address
 
 INC = -Ilibft/include -Iinclude 
 
@@ -79,7 +79,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-re: fclean dfclean all
+re: fclean all
 
 run: all
 	@# ./$(NAME) input_file.txt "test_exec 1" "prog2 1" "prog3 1" output_file.txt
@@ -93,7 +93,7 @@ run: all
 
 
 norm:
-	@norminette $(SRC_DIR)/main.c $(SRC_DIR)/error.c $(SRC_DIR)/free.c $(SRC_DIR)/parser.c $(SRC_DIR)/processes.c $(SRC_DIR)/utils.c $(SRC_DIR)/commands.c $(HEADER_DIR)/*
+	@norminette libft $(SRC_DIR) $(HEADER_DIR)
 
 compile_commands: dfclean fclean
 	$(MAKE) | compiledb

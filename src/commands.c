@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   commands.c                                         :+:    :+:            */
+/*   commands.c                                        :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/15 09:40:02 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/15 10:56:22 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	**append_path_env(t_cmd *cmd, char *path)
 		paths[i] = ft_strjoin_free(paths[i], "/");
 		if (!paths[i])
 		{
-			free_split_test(paths, i);
+			free_split_skip(paths, i);
 			return (NULL);
 		}
 		paths[i] = ft_strjoin_free(paths[i], cmd->argv[0]);
@@ -90,7 +90,6 @@ static t_cmd	*cmd_init(char *argv, char **envp)
 	}
 	else
 	{
-		// TODO Check leaks
 		cmd->cmd_paths = append_path_env(cmd, find_path(envp));
 		if (!cmd->cmd_paths)
 		{
