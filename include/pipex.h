@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.h                                           :+:    :+:             */
+/*   pipex.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/16 23:11:19 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/11 13:46:58 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/15 09:20:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int				execute_procs(t_pipex *pipex);
 void			free_cmds(t_cmd **cmds);
 void			free_cmd(t_cmd *cmd);
 void			free_split(char **s_split);
+void	free_split_test(char **s_split, int skip);
 
 // utils.c
 unsigned int	cmd_count(t_pipex *pipex);

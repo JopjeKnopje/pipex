@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/24 00:15:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/05/10 10:23:24 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/15 09:34:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <stdio.h>
 
 void	free_cmd(t_cmd *cmd)
 {
@@ -32,6 +33,8 @@ void	free_cmds(t_cmd **cmds)
 	free(cmds);
 }
 
+
+
 void	free_split(char **s_split)
 {
 	int	i;
@@ -43,4 +46,22 @@ void	free_split(char **s_split)
 		i++;
 	}
 	free(s_split);
+}
+
+void	free_split_test(char **s_split, int len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		if (s_split[i])
+		{ 
+			printf("freed %d\n", i);
+			free(s_split[i]);
+		}
+		i++;
+	}
+	free(s_split);
+
 }

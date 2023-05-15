@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/15 09:05:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/15 09:31:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static char	**append_path_env(t_cmd *cmd, char *path)
 		// TODO Fix these leaks
 		if (counter >= 3)
 		{ 
+			free(paths[i]);
 			paths[i] = NULL;
 			print_paths(paths, 13);
 		}
@@ -67,7 +68,8 @@ static char	**append_path_env(t_cmd *cmd, char *path)
 		counter++;
 		if (!paths[i])
 		{
-			free_split(paths);
+			// prob gotta free base ptr
+			free_split_test(paths, i);
 			return (NULL);
 		}
 		paths[i] = ft_strjoin_free(paths[i], cmd->argv[0]);
