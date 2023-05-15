@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:26:15 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/15 09:38:23 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/15 09:39:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,30 +63,4 @@ int	main(int argc, char *argv[], char *envp[])
 	if (close(pipex.files[WRITE_END]) < 0)
 		return (error_message(strerror(errno), argv[argc - 1]));
 	return (exit_status);
-}
-
-static void print_paths(char **paths, unsigned int len)
-{
-	unsigned int i = 0;
-	while (i < len) 
-	{
-		printf("paths[%d]: %s\n", i, paths[i]);
-		i++;
-	}
-}
-
-int main1(int argc, char *argv[])
-{
-	const char *s = "/home/joppe/.cargo/bin:/home/joppe/gems/bin:/home/joppe/.local/bin";
-	char **paths = ft_split(s, ':');
-
-	print_paths(paths, 4);
-
-	free(paths[1]);
-	paths[1] = NULL;
-	print_paths(paths, 4);
-
-	free_split_test(paths, 1);
-
-	return EXIT_SUCCESS;
 }

@@ -6,13 +6,11 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:25:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/15 09:38:33 by joppe         ########   odam.nl         */
+/*   Updated: 2023/05/15 09:40:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 char	*find_path(char *envp[])
 {
@@ -30,42 +28,20 @@ char	*find_path(char *envp[])
 	return (NULL);
 }
 
-static void print_paths(char **paths, unsigned int len)
-{
-	unsigned int i = 0;
-	while (i < len) 
-	{
-		printf("paths[%d]: %s\n", i, paths[i]);
-		i++;
-	}
-}
-
 static char	**append_path_env(t_cmd *cmd, char *path)
 {
 	unsigned int	i;
 	char			**paths;
-
-	static int counter = 0;
 
 	if (!cmd || !path)
 		return (NULL);
 	paths = ft_split(path, ':');
 	if (!paths)
 		return (NULL);
-	print_paths(paths, 13);
 	i = 0;
 	while (paths[i])
 	{
-		// TODO Fix these leaks
-		if (counter >= 3)
-		{ 
-			free(paths[i]);
-			paths[i] = NULL;
-			print_paths(paths, 13);
-		}
-		else
-			paths[i] = ft_strjoin_free(paths[i], "/");
-		counter++;
+		paths[i] = ft_strjoin_free(paths[i], "/");
 		if (!paths[i])
 		{
 			free_split_test(paths, i);
@@ -118,7 +94,6 @@ static t_cmd	*cmd_init(char *argv, char **envp)
 		cmd->cmd_paths = append_path_env(cmd, find_path(envp));
 		if (!cmd->cmd_paths)
 		{
-			printf("append_path_env failed\n");
 			free_split(cmd->argv);
 			free(cmd);
 			return (NULL);
