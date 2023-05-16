@@ -6,14 +6,11 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/19 16:10:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/15 14:39:04 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/16 11:35:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <errno.h>
-#include <stdio.h>
-#include <string.h>
 
 int	error_code_child_crash(int status)
 {

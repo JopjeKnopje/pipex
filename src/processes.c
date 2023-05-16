@@ -6,14 +6,11 @@
 /*   By: jboeve <marvin@42.fr>                        +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 10:47:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/16 11:05:00 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/16 11:36:35 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 {
@@ -34,7 +31,7 @@ static int	redirect_fd(t_pipex *pipex, unsigned int cmd_index)
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (pipex->files[WRITE_END] == -1)
 			return (error_message(strerror(errno), pipex->fnames[WRITE_END]));
-		if (dup2(pipex->files[WRITE_END], STDOUT_FILENO) == -1 
+		if (dup2(pipex->files[WRITE_END], STDOUT_FILENO) == -1
 			|| dup2(pipex->pipes[READ_END], STDIN_FILENO) == -1)
 			return (error_message(strerror(errno), NULL));
 		if (close(pipex->files[WRITE_END]) || close(pipex->pipes[WRITE_END]))
@@ -73,7 +70,6 @@ static pid_t	child_create(t_pipex *pipex, unsigned int cmd_index)
 		if (redirect_fd(pipex, cmd_index) == EXIT_FAILURE)
 		{
 			free_cmds(pipex->cmds);
-			// exit(error_message(strerror(errno), NULL));
 			exit(EXIT_FAILURE);
 		}
 		runnable_index = cmds_get_runnable(pipex->cmds[cmd_index]);
@@ -99,7 +95,6 @@ static int	wait_for_children(pid_t pid)
 		exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		exit_status = error_code_child_crash(status);
-	// printf("exit_status %d\n", exit_status);
 	return (exit_status);
 }
 

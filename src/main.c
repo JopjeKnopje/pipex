@@ -6,13 +6,11 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/05/10 15:26:15 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/05/16 11:10:00 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/05/16 11:36:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "pipex.h"
-#include <stdio.h>
 
 static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 {
@@ -28,7 +26,6 @@ static int	do_pipex(t_pipex *pipex, char *argv[], char *envp[])
 		free_split(args);
 		return (EXIT_FAILURE);
 	}
-	// print_cmds(pipex->cmds, 2);
 	free_split(args);
 	if (pipe(pipex->pipes) == -1)
 	{

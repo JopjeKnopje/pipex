@@ -6,7 +6,7 @@
 #    By: jboeve <marvin@42.fr>                       +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/05/11 11:36:05 by jboeve        #+#    #+#                  #
-#    Updated: 2023/05/15 16:31:02 by jboeve        ########   odam.nl          #
+#    Updated: 2023/05/16 11:35:54 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,7 @@ SRCS = main.c \
 	   commands.c \
 	   free.c \
 	   error.c \
-	   processes.c \
-	   meuk.c
+	   processes.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
